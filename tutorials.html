@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content Production Tutorials</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+    
+    <title>ContentMaster - Daily Videos, Blogs, Posts, Leads in Your Niche</title>
+    <meta name="description" content="Your Smart Agents generate Daily Videos, Blogs, Posts, Leads, Contents, Ideas in Your Niche To build your evergreen lead-generating personal brand in 100 days — no prompt engineering and design skills needed!">
+    <link rel="canonical" href="https://contentmaster.ai/">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ContentMaster - Daily Videos, Blogs, Posts, Leads in Your Niche">
+    <meta property="og:description" content="Your Smart Agents generate Daily Videos, Blogs, Posts, Leads, Contents, Ideas in Your Niche To build your evergreen lead-generating personal brand in 100 days — no prompt engineering and design skills needed!">
+    <meta property="og:url" content="https://contentmaster.ai/">
+    <meta property="og:site_name" content="ContentMaster - Daily Videos, Blogs, Posts, Leads in Your Niche">
+    <meta property="article:modified_time" content="2025-07-04T15:51:37+00:00">
+    <meta property="og:image" content="https://contentmaster.ai/statics/social_banner.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preload" href="https://contentmaster.ai/assets/fonts/Bank-Gothic-Light-Regular.woff" as="font" type="font/woff" crossorigin>
+    <meta name="twitter:image" content="https://contentmaster.ai/statics/social_banner.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .tut_container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .tut_header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .tut_logo {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .tut_logo a {
+            display: inline-block;
+            transition: opacity 0.3s ease;
+        }
+
+        .tut_logo a:hover {
+            opacity: 0.8;
+        }
+
+        .tut_logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 0;
+            font-size: 2.5rem;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .tut_controls_section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .tut_language_dropdown, .tut_search_container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tut_language_dropdown {
+            z-index: 1002;
+        }
+
+        .tut_dropdown_toggle, .tut_search_input {
+            padding: 12px 24px;
+            background: #1a1a1a;
+            color: #ffffff;
+            border: 2px solid #4486ff;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            min-width: 150px;
+            transition: all 0.3s ease;
+            height: 48px;
+            box-sizing: border-box;
+        }
+
+        .tut_dropdown_toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: space-between;
+        }
+
+        .tut_search_input {
+            cursor: text;
+            padding-left: 20px;
+            min-width: 250px;
+            display: flex;
+            align-items: center;
+        }
+
+        .tut_search_input::placeholder {
+            color: #aaa;
+        }
+
+        .tut_search_input:focus {
+            outline: none;
+            background: #4486ff;
+            color: #ffffff;
+        }
+
+        .tut_search_input:focus::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .tut_dropdown_toggle:hover, .tut_search_input:hover {
+            background: #4486ff;
+            transform: translateY(-2px);
+        }
+
+        .tut_dropdown_arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .tut_dropdown_toggle.tut_active .tut_dropdown_arrow {
+            transform: rotate(180deg);
+        }
+
+        .tut_dropdown_menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #1a1a1a;
+            border: 2px solid #4486ff;
+            border-radius: 15px;
+            margin-top: 5px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1003;
+            box-shadow: 0 8px 25px rgba(68, 134, 255, 0.2);
+        }
+
+        .tut_dropdown_menu.tut_show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .tut_dropdown_item {
+            padding: 12px 20px;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #333;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tut_dropdown_item:last-child {
+            border-bottom: none;
+            border-radius: 0 0 13px 13px;
+        }
+
+        .tut_dropdown_item:first-child {
+            border-radius: 13px 13px 0 0;
+        }
+
+        .tut_dropdown_item:hover {
+            background: #4486ff;
+            color: #ffffff;
+        }
+
+        .tut_dropdown_item.tut_active {
+            background: #4486ff;
+            color: #ffffff;
+        }
+
+        .tut_section {
+            margin-bottom: 60px;
+        }
+
+        .tut_section_title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #4486ff;
+            border-left: 4px solid #4486ff;
+            padding-left: 20px;
+        }
+
+        .tut_video_grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .tut_video_card {
+            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #333;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            height: fit-content;
+        }
+
+        .tut_video_card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(68, 134, 255, 0.2);
+            border-color: #4486ff;
+        }
+
+        .tut_video_thumbnail {
+            position: relative;
+            width: 95px;
+            height: 169px;
+            background: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .tut_video_thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tut_play_button_overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: 24px;
+            background: rgba(68, 134, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tut_video_card:hover .tut_play_button_overlay {
+            opacity: 1;
+        }
+
+        .tut_play_button_overlay::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 6px solid #ffffff;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            margin-left: 1px;
+        }
+
+        .tut_video_content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tut_video_title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .tut_video_description {
+            font-size: 0.85rem;
+            color: #aaa;
+            line-height: 1.4;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .tut_play_button, .tut_share_button {
+            background: #4486ff;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            min-width: 70px;
+            justify-content: center;
+        }
+
+        .tut_play_button:hover {
+            background: #3366cc;
+            transform: translateY(-1px);
+        }
+
+        .tut_play_button::before {
+            content: '▶';
+            font-size: 0.7rem;
+        }
+
+        .tut_video_actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .tut_share_button {
+            background: #28a745;
+        }
+
+        .tut_share_button:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .tut_share_button::before {
+            content: '🔗';
+            font-size: 0.7rem;
+        }
+
+        .tut_share_button.tut_copied {
+            background: #17a2b8;
+        }
+
+        .tut_share_button.tut_copied::before {
+            content: '✓';
+        }
+
+        .tut_search_result_info {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .tut_no_results {
+            text-align: center;
+            color: #aaa;
+            font-size: 1.1rem;
+            margin: 60px 0;
+        }
+
+        /* Modal Styles */
+        .tut_modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            overflow-y: auto;
+        }
+
+        .tut_modal_content {
+            position: relative;
+            background: #1a1a1a;
+            margin: 20px auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            min-height: 400px;
+            max-height: calc(100vh - 40px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tut_modal_header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #0f0f0f;
+            border-bottom: 1px solid #333;
+            flex-shrink: 0;
+            min-height: 50px;
+            gap: 10px;
+        }
+
+        .tut_modal_title {
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin: 0;
+            line-height: 1.2;
+            flex: 1;
+            min-width: 0;
+            padding-right: 10px;
+        }
+
+        .tut_close {
+            color: #aaa;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            margin-left: 10px;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tut_close:hover {
+            color: #4486ff;
+        }
+
+        .tut_video_container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 177.78%;
+            flex-shrink: 0;
+            background: #000;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tut_video_container iframe {
+            position: absolute;
+            top: 2.5%;
+            left: 2.5%;
+            width: 95%;
+            height: 80%;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .tut_video_container video {
+            position: absolute;
+            top: 2.5%;
+            left: 2.5%;
+            width: 95%;
+            height: 95%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        /* Modal Language Dropdown Styles */
+        .tut_modal_language_dropdown {
+            position: relative;
+            display: inline-block;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .tut_modal_dropdown_toggle {
+            padding: 6px 12px;
+            background: #333;
+            color: #ffffff;
+            border: 1px solid #555;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            min-width: 120px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: space-between;
+            white-space: nowrap;
+        }
+
+        .tut_modal_dropdown_toggle:hover {
+            background: #4486ff;
+            border-color: #4486ff;
+        }
+
+        .tut_modal_dropdown_toggle.tut_active .tut_dropdown_arrow {
+            transform: rotate(180deg);
+        }
+
+        .tut_modal_dropdown_menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #1a1a1a;
+            border: 2px solid #4486ff;
+            border-radius: 10px;
+            margin-top: 5px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 2100;
+            box-shadow: 0 8px 25px rgba(68, 134, 255, 0.2);
+            max-height: 200px;
+            overflow-y: auto;
+            min-width: 150px;
+        }
+
+        .tut_modal_dropdown_menu.tut_show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .tut_modal_dropdown_item {
+            padding: 8px 15px;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #333;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .tut_modal_dropdown_item:last-child {
+            border-bottom: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .tut_modal_dropdown_item:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tut_modal_dropdown_item:hover {
+            background: #4486ff;
+            color: #ffffff;
+        }
+
+        .tut_modal_dropdown_item.tut_active {
+            background: #4486ff;
+            color: #ffffff;
+        }
+
+        /* Arrow styles */
+        .dots[data-v-8ab6b792]{
+            background-image:radial-gradient(#ffffff11 1.2px,transparent 0);
+            background-size:14px 14px;
+        }
+
+        .arrow {
+            position: fixed;
+            z-index: 1000;
+            transform: scaleX(-1);
+            display: none;
+            pointer-events: none;
+        }
+
+        .arrow__body {
+            width: 100%;
+            height: 99%;
+            margin-left: 11px;
+            border-width: 0px 0 0 2px;
+            border-style: dashed;
+            border-color: #ff7473;
+            border-top-left-radius: 100%;
+        }
+
+        .arrow__body::after {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            left: 6px;
+            border-width: 12px 6px 0;
+            border-style: solid;
+            border-color: #ff7473 transparent transparent;
+        }
+
+        /* Footer hover effect */
+        .footer-logo:hover img {
+            opacity: 1 !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tut_container {
+                padding: 20px 15px;
+            }
+
+            .tut_header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .tut_logo {
+                position: static;
+                transform: none;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .tut_controls_section {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .tut_search_input {
+                min-width: 200px;
+            }
+
+            .tut_section_title {
+                font-size: 1.5rem;
+            }
+
+            .tut_video_grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .tut_video_card {
+                padding: 15px;
+                gap: 12px;
+            }
+
+            .tut_video_thumbnail {
+                width: 73px;
+                height: 129px;
+            }
+
+            .tut_modal_content {
+                width: 95%;
+                max-width: 95vw;
+                margin: 10px auto;
+                max-height: calc(100vh - 20px);
+                min-height: 300px;
+            }
+
+            .tut_video_container {
+                padding-bottom: 177.78%;
+            }
+
+            .tut_modal_header {
+                padding: 10px 15px;
+                flex-wrap: wrap;
+                min-height: 60px;
+            }
+
+            .tut_modal_title {
+                font-size: 1rem;
+                flex: 1 1 100%;
+                margin-bottom: 5px;
+                padding-right: 0;
+            }
+
+            .tut_modal_language_dropdown {
+                margin-left: 0;
+                order: 1;
+            }
+
+            .tut_modal_dropdown_toggle {
+                padding: 5px 10px;
+                font-size: 0.75rem;
+                min-width: 100px;
+            }
+
+            .tut_modal_dropdown_item {
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+
+            .tut_close {
+                font-size: 22px;
+                order: 2;
+                margin-left: auto;
+            }
+
+            .tut_video_actions {
+                gap: 6px;
+                margin-top: 2px;
+            }
+
+            .tut_play_button, .tut_share_button {
+                padding: 5px 10px;
+                font-size: 0.75rem;
+                min-width: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tut_video_grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tut_video_card {
+                padding: 12px;
+                gap: 10px;
+            }
+
+            .tut_video_thumbnail {
+                width: 61px;
+                height: 109px;
+            }
+
+            .tut_video_title {
+                font-size: 0.95rem;
+            }
+
+            .tut_video_description {
+                font-size: 0.8rem;
+            }
+
+            .tut_search_input {
+                min-width: 180px;
+            }
+
+            .tut_modal_content {
+                max-width: 98vw;
+            }
+            
+            .tut_modal_header {
+                padding: 8px 12px;
+            }
+            
+            .tut_modal_title {
+                font-size: 0.9rem;
+            }
+            
+            .tut_modal_dropdown_toggle {
+                min-width: 90px;
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .tut_modal_dropdown_menu {
+                right: -10px;
+                left: auto;
+                min-width: 140px;
+            }
+        }
+
+        /* Ensure modal stays within viewport */
+        @media (max-height: 700px) {
+            .tut_modal_content {
+                margin: 15px auto;
+                max-height: calc(100vh - 30px);
+                min-height: 250px;
+            }
+            .tut_video_container {
+                padding-bottom: 125%;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .tut_modal_content {
+                margin: 10px auto;
+                max-height: calc(100vh - 20px);
+                min-height: 200px;
+            }
+            .tut_video_container {
+                padding-bottom: 125%;
+            }
+        }
+
+        @media (max-height: 500px) {
+            .tut_modal_content {
+                margin: 5px auto;
+                max-height: calc(100vh - 10px);
+                min-height: 180px;
+            }
+            .tut_video_container {
+                padding-bottom: 120%;
+            }
+        }
+    </style>
+    <script src="https://contentmaster.ai/video_list.js"></script>
+
+</head>
+<body>
+    <div class="tut_container">
+        <div class="tut_header">
+            <div class="tut_logo">
+                <a href="https://contentmaster.ai/" target="_blank">
+                    <img src="https://contentmaster.ai/landing/contentmaster_white.svg" alt="ContentMaster AI" />
+                </a>
+            </div>
+            <h3>AI Content Production Tutorials</h3>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="tut_controls_section">
+            <!-- Language Filter -->
+            <div class="tut_language_dropdown">
+                <div class="tut_dropdown_toggle" id="tut_languageToggle">
+                    <span id="tut_selectedLanguage">English</span>
+                    <span class="tut_dropdown_arrow">▼</span>
+                </div>
+                <div class="tut_dropdown_menu" id="tut_languageMenu">
+                    <div class="tut_dropdown_item tut_active" data-lang="en">🇺🇸 English</div>
+                    <div class="tut_dropdown_item" data-lang="es">🇪🇸 Español</div>
+                    <div class="tut_dropdown_item" data-lang="vi">🇻🇳 Tiếng Việt</div>
+                    <div class="tut_dropdown_item" data-lang="hi">🇮🇳 हिन्दी</div>
+                    <div class="tut_dropdown_item" data-lang="ar">🇸🇦 العربية</div>
+                    <div class="tut_dropdown_item" data-lang="pt">🇧🇷 Português</div>
+                    <div class="tut_dropdown_item" data-lang="fr">🇫🇷 Français</div>
+                    <div class="tut_dropdown_item" data-lang="de">🇩🇪 Deutsch</div>
+                    <div class="tut_dropdown_item" data-lang="it">🇮🇹 Italiano</div>
+                </div>
+            </div>
+
+            <!-- Search Input -->
+            <div class="tut_search_container">
+                <input type="text" class="tut_search_input" id="tut_searchInput" placeholder="Search videos...">
+            </div>
+        </div>
+
+        <!-- Video Content Container -->
+        <div id="tut_videoContent">
+            <!-- Content will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="tut_videoModal" class="tut_modal">
+        <div class="tut_modal_content">
+            <div class="tut_modal_header">
+                <h3 class="tut_modal_title" id="tut_modalTitle">Video Title</h3>
+                
+                <!-- Language dropdown for modal -->
+                <div class="tut_modal_language_dropdown" id="tut_modalLanguageDropdown">
+                    <div class="tut_modal_dropdown_toggle" id="tut_modalLanguageToggle">
+                        <span id="tut_modalSelectedLanguage">English</span>
+                        <span class="tut_dropdown_arrow">▼</span>
+                    </div>
+                    <div class="tut_modal_dropdown_menu" id="tut_modalLanguageMenu">
+                        <div class="tut_modal_dropdown_item tut_active" data-lang="en">🇺🇸 English</div>
+                        <div class="tut_modal_dropdown_item" data-lang="es">🇪🇸 Español</div>
+                        <div class="tut_modal_dropdown_item" data-lang="vi">🇻🇳 Tiếng Việt</div>
+                        <div class="tut_modal_dropdown_item" data-lang="hi">🇮🇳 हिन्दी</div>
+                        <div class="tut_modal_dropdown_item" data-lang="ar">🇸🇦 العربية</div>
+                        <div class="tut_modal_dropdown_item" data-lang="pt">🇧🇷 Português</div>
+                        <div class="tut_modal_dropdown_item" data-lang="fr">🇫🇷 Français</div>
+                        <div class="tut_modal_dropdown_item" data-lang="de">🇩🇪 Deutsch</div>
+                        <div class="tut_modal_dropdown_item" data-lang="it">🇮🇹 Italiano</div>
+                    </div>
+                </div>
+                
+                <button class="tut_close" id="tut_closeModal">&times;</button>
+            </div>
+            <div class="tut_video_container">
+                <iframe id="tut_youtubeIframe" src="" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="arrow"><div class="arrow__body"></div></div>
+
+    <!-- Chat CTA Section - right after the last video -->
+    <div style="text-align: center; margin: 0px 0 40px 0; padding: 0px 20px;">
+        <p style="font-size: 1.2rem; color: #aaa; margin: 0;">
+            Can't find the tutorial in your language? 
+            <a href="#" onclick="return false;" style="color: #4486ff; text-decoration: none; font-weight: 600; cursor: pointer;" id="hero_title">
+                <strong id="hero_title">Ask AI assistant using your language.</strong>
+            </a>
+        </p>
+    </div>
+
+    <!-- Footer with Logo -->
+    <div class="footer-action" style="text-align: center; margin: 40px 0; padding: 20px;">
+        <a class="footer-logo" href="https://contentmaster.ai/" target="_blank">
+            <img src="https://contentmaster.ai/landing/contentmaster_white.svg" width="200" alt="ContentMaster AI" style="opacity: 0.8; transition: opacity 0.3s ease;">
+        </a>
+    </div>
+
+    <!-- Final CTA Section -->
+    <div style="text-align: center; margin: 40px 0 60px 0; padding: 20px; border-top: 1px solid #333;">
+        <p style="font-size: 0.95rem; color: #666; margin: 0;">
+            Want a Tutorials page with chatbot like this? 
+            <a href="https://contentmaster.ai/login.html?auth_screen=signin" target="_blank" style="color: #4486ff; text-decoration: none; font-weight: 500;">
+                <strong>Download source code and integration guide in Dashboard</strong>
+            </a>
+        </p>
+    </div>
+
+    <!-- CSS for hover effect of logo -->
+    <style>
+        .footer-logo:hover img {
+            opacity: 1 !important;
+        }
+    </style>
+
+    <script>
+        // Language display names
+        const tut_languageNames = {
+            en: '🇺🇸 English',
+            es: '🇪🇸 Español', 
+            vi: '🇻🇳 Tiếng Việt',
+            hi: '🇮🇳 हिन्दी',
+            ar: '🇸🇦 العربية',
+            pt: '🇧🇷 Português',
+            fr: '🇫🇷 Français',
+            de: '🇩🇪 Deutsch',
+            it: '🇮🇹 Italiano'
+        };
+
+        // Category titles for different languages
+        const tut_categoryTitles = {
+            en: {
+                beginner: "Beginner",
+                advanced: "Advanced", 
+                daily_usage: "Daily Usage"
+            },
+            es: {
+                beginner: "Principiante",
+                advanced: "Avanzado",
+                daily_usage: "Uso Diario"
+            },
+            hi: {
+                beginner: "शुरुआती",
+                advanced: "उन्नत",
+                daily_usage: "दैनिक उपयोग"
+            },
+            ar: {
+                beginner: "مبتدئ",
+                advanced: "متقدم",
+                daily_usage: "الاستخدام اليومي"
+            },
+            pt: {
+                beginner: "Iniciante",
+                advanced: "Avançado",
+                daily_usage: "Uso Diário"
+            },
+            fr: {
+                beginner: "Débutant",
+                advanced: "Avancé",
+                daily_usage: "Usage Quotidien"
+            },
+            de: {
+                beginner: "Anfänger",
+                advanced: "Fortgeschritten",
+                daily_usage: "Tägliche Nutzung"
+            },
+            it: {
+                beginner: "Principiante",
+                advanced: "Avanzato",
+                daily_usage: "Uso Quotidiano"
+            },
+            vi: {
+                beginner: "Cơ bản",
+                advanced: "Nâng cao",
+                daily_usage: "Sử dụng hàng ngày"
+            }
+        };
+
+        // Global variables
+        let tut_currentLanguage = 'en';
+        let tut_currentSearchTerm = '';
+
+        // Helper function to extract YouTube video ID from URL
+        function tut_extractYouTubeVideoId(url) {
+            if (url.includes('youtube.com/watch?v=')) {
+                return url.split('v=')[1].split('&')[0];
+            }
+            if (url.includes('youtu.be/')) {
+                return url.split('youtu.be/')[1].split('?')[0];
+            }
+            if (url.includes('youtube.com/shorts/')) {
+                return url.split('shorts/')[1].split('?')[0];
+            }
+            return null;
+        }
+
+        function tut_isYouTubeShorts(url) {
+            return url.includes('youtube.com/shorts/');
+        }
+
+        function tut_convertUrlToCompactId(url) {
+            const videoId = tut_extractYouTubeVideoId(url);
+            if (!videoId) return url;
+            
+            if (tut_isYouTubeShorts(url)) {
+                return `short_${videoId}`;
+            } else {
+                return videoId;
+            }
+        }
+
+        function tut_convertCompactIdToUrl(compactId) {
+            if (compactId.startsWith('short_')) {
+                const videoId = compactId.replace('short_', '');
+                return `https://youtube.com/shorts/${videoId}`;
+            } else {
+                return `https://youtube.com/watch?v=${compactId}`;
+            }
+        }
+
+        function tut_getCurrentLanguage() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('lang') || urlParams.get('language') || 'en';
+        }
+
+        function tut_getVideoIdFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('id');
+        }
+
+        function tut_updateURL(lang, searchTerm = '') {
+            const url = new URL(window.location);
+            url.searchParams.set('lang', lang);
+            url.searchParams.delete('language');
+            
+            if (searchTerm) {
+                url.searchParams.set('search', searchTerm);
+            } else {
+                url.searchParams.delete('search');
+            }
+            
+            window.history.pushState({}, '', url);
+        }
+
+        function tut_generateShareURL(videoId) {
+            const url = new URL(window.location);
+            
+            url.searchParams.set('id', videoId); // Use video.id directly
+            url.searchParams.set('lang', tut_currentLanguage);
+            url.searchParams.delete('language');
+            url.searchParams.delete('video_id');
+            url.searchParams.delete('search'); // Remove search when sharing specific video
+            
+            return url.toString();
+        }
+
+        function tut_findVideoById(videoId) {
+            if (typeof video_list === 'undefined') {
+                return null;
+            }
+            
+            // Search through all languages and categories
+            const results = [];
+            for (let langData of video_list) {
+                for (let categoryData of langData.videos) {
+                    const video = categoryData.list.find(v => v.id === videoId);
+                    if (video) {
+                        results.push({
+                            video: video,
+                            language: langData.lang
+                        });
+                    }
+                }
+            }
+            return results; // Return array instead of first object
+        }
+
+        function tut_findVideoInLanguage(videoId, targetLang) {
+            const allResults = tut_findVideoById(videoId);
+            if (!allResults || allResults.length === 0) return null;
+            
+            // Find video in desired language
+            const targetResult = allResults.find(result => result.language === targetLang);
+            if (targetResult) {
+                return targetResult;
+            }
+            
+            // If not found in desired language, return first language
+            return allResults[0];
+        }
+
+        function tut_updateModalDropdownDisplay(lang) {
+            const modalSelectedLanguage = document.getElementById('tut_modalSelectedLanguage');
+            const modalDropdownItems = document.querySelectorAll('.tut_modal_dropdown_item');
+            
+            if (modalSelectedLanguage) {
+                modalSelectedLanguage.textContent = tut_languageNames[lang] || tut_languageNames.en;
+            }
+            
+            modalDropdownItems.forEach(item => {
+                item.classList.remove('tut_active');
+                if (item.getAttribute('data-lang') === lang) {
+                    item.classList.add('tut_active');
+                }
+            });
+        }
+
+        function tut_getYouTubeThumbnail(videoId) {
+            return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+        }
+
+        function tut_getThumbnailUrl(url, fallbackIndex) {
+            const youtubeId = tut_extractYouTubeVideoId(url);
+            if (youtubeId) {
+                return tut_getYouTubeThumbnail(youtubeId);
+            }
+            return `https://picsum.photos/95/169?random=${fallbackIndex}`;
+        }
+
+        // Search function
+        function tut_searchVideos(searchTerm, lang) {
+            // Check if video_list is loaded
+            if (typeof video_list === 'undefined') {
+                return [];
+            }
+            
+            const langData = video_list.find(item => item.lang === lang) || video_list.find(item => item.lang === 'en');
+            if (!langData) return [];
+
+            if (!searchTerm.trim()) {
+                return langData.videos; // Return all videos if no search term
+            }
+
+            const searchLower = searchTerm.toLowerCase();
+            const filteredCategories = [];
+
+            langData.videos.forEach(categoryData => {
+                const filteredVideos = categoryData.list.filter(video => 
+                    video.title.toLowerCase().includes(searchLower) ||
+                    video.desc.toLowerCase().includes(searchLower)
+                );
+
+                if (filteredVideos.length > 0) {
+                    filteredCategories.push({
+                        category: categoryData.category,
+                        list: filteredVideos
+                    });
+                }
+            });
+
+            return filteredCategories;
+        }
+
+        function tut_createVideoCard(video, index) {
+            const thumbnailUrl = tut_getThumbnailUrl(video.url, index);
+            
+            return `
+                <div class="tut_video_card" data-video-url="${video.url}" data-video-id="${video.id}" data-title="${video.title}">
+                    <div class="tut_video_thumbnail">
+                        <img src="${thumbnailUrl}" alt="${video.title}" onerror="this.src='https://picsum.photos/95/169?random=${index}'">
+                        <div class="tut_play_button_overlay"></div>
+                    </div>
+                    <div class="tut_video_content">
+                        <h3 class="tut_video_title">${video.title}</h3>
+                        <p class="tut_video_description">${video.desc}</p>
+                        <div class="tut_video_actions">
+                            <button class="tut_play_button">Play</button>
+                            <button class="tut_share_button" data-video-id="${video.id}">Share</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function tut_createSection(category, videos, lang) {
+            const title = tut_categoryTitles[lang] ? tut_categoryTitles[lang][category] : category;
+            let videoCards = '';
+            videos.forEach((video, index) => {
+                videoCards += tut_createVideoCard(video, index + Math.random() * 100);
+            });
+
+            return `
+                <div class="tut_section">
+                    <h2 class="tut_section_title">${title}</h2>
+                    <div class="tut_video_grid">
+                        ${videoCards}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Main render function
+        function tut_renderVideoList(lang, searchTerm = '') {
+            const videoContent = document.getElementById('tut_videoContent');
+            
+            // Check if video_list is loaded
+            if (typeof video_list === 'undefined') {
+                videoContent.innerHTML = '<p style="text-align: center; color: #aaa;">Loading videos...</p>';
+                return;
+            }
+            
+            const filteredVideos = tut_searchVideos(searchTerm, lang);
+            
+            if (filteredVideos.length === 0) {
+                if (searchTerm.trim()) {
+                    videoContent.innerHTML = `
+                        <div class="tut_search_result_info">No videos found for "${searchTerm}"</div>
+                        <div class="tut_no_results">Try searching with different keywords or check other languages.</div>
+                    `;
+                } else {
+                    videoContent.innerHTML = '<p style="text-align: center; color: #aaa;">No videos available.</p>';
+                }
+                return;
+            }
+
+            let html = '';
+            
+            // Add search result info if searching
+            if (searchTerm.trim()) {
+                const totalVideos = filteredVideos.reduce((sum, cat) => sum + cat.list.length, 0);
+                html += `<div class="tut_search_result_info">Found ${totalVideos} video(s) for "${searchTerm}"</div>`;
+            }
+
+            // Render categories and videos
+            filteredVideos.forEach(categoryData => {
+                html += tut_createSection(categoryData.category, categoryData.list, lang);
+            });
+
+            videoContent.innerHTML = html;
+            tut_attachVideoCardListeners();
+        }
+
+        function tut_convertToEmbedUrl(url) {
+            const youtubeId = tut_extractYouTubeVideoId(url);
+            if (youtubeId) {
+                return `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
+            }
+            
+            if (url.includes('vimeo.com/')) {
+                const videoId = url.split('vimeo.com/')[1].split('?')[0];
+                return `https://player.vimeo.com/video/${videoId}?autoplay=1`;
+            }
+            
+            if (url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) || url.includes('amazonaws.com')) {
+                return url;
+            }
+            
+            return url;
+        }
+
+        function tut_createVideoElement(url) {
+            return `
+                <video controls autoplay style="width: 95%; height: 95%; object-fit: contain; position: absolute; top: 2.5%; left: 2.5%; border-radius: 8px;">
+                    <source src="${url}" type="video/mp4">
+                    <source src="${url}" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+            `;
+        }
+
+        // Add global variable to store current video ID
+        let tut_currentVideoId = null;
+
+        function tut_openVideoModal(videoUrl, title, videoId = null) {
+            tut_modalTitle.textContent = title;
+            
+            // Store current video ID
+            tut_currentVideoId = videoId;
+            
+            const embedUrl = tut_convertToEmbedUrl(videoUrl);
+            
+            if (videoUrl.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) || videoUrl.includes('amazonaws.com')) {
+                tut_youtubeIframe.style.display = 'none';
+                const videoContainer = tut_youtubeIframe.parentElement;
+                
+                const existingVideo = videoContainer.querySelector('video');
+                if (existingVideo) {
+                    existingVideo.remove();
+                }
+                
+                videoContainer.insertAdjacentHTML('beforeend', tut_createVideoElement(embedUrl));
+            } else {
+                const existingVideo = tut_youtubeIframe.parentElement.querySelector('video');
+                if (existingVideo) {
+                    existingVideo.remove();
+                }
+                tut_youtubeIframe.style.display = 'block';
+                tut_youtubeIframe.src = embedUrl;
+            }
+            
+            tut_modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Update modal dropdown with current language
+            tut_updateModalDropdownDisplay(tut_currentLanguage);
+        }
+
+        function tut_checkAutoPlayVideo() {
+            const videoId = tut_getVideoIdFromURL();
+            if (videoId) {
+                const result = tut_findVideoInLanguage(videoId, tut_currentLanguage);
+                
+                if (result) {
+                    const { video, language } = result;
+                    tut_openVideoModal(video.url, video.title, videoId); // Add videoId parameter
+                    
+                    // Update current language if needed
+                    if (language !== tut_currentLanguage) {
+                        tut_currentLanguage = language;
+                        tut_updateDropdownDisplay(tut_currentLanguage);
+                    }
+                } else {
+                    console.warn(`Video with ID "${videoId}" not found`);
+                }
+            }
+        }
+
+        function tut_attachVideoCardListeners() {
+            const videoCards = document.querySelectorAll('.tut_video_card');
+            videoCards.forEach(card => {
+                const playButton = card.querySelector('.tut_play_button');
+                playButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const videoUrl = card.getAttribute('data-video-url');
+                    const title = card.getAttribute('data-title');
+                    const videoId = card.getAttribute('data-video-id'); // Add this line
+                    tut_openVideoModal(videoUrl, title, videoId); // Add videoId parameter
+                });
+
+                const shareButton = card.querySelector('.tut_share_button');
+                shareButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const videoId = this.getAttribute('data-video-id'); // Use video.id
+                    const shareUrl = tut_generateShareURL(videoId);
+                    
+                    navigator.clipboard.writeText(shareUrl).then(() => {
+                        const originalText = this.textContent;
+                        this.textContent = 'URL Copied!';
+                        this.classList.add('tut_copied');
+                        
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.classList.remove('tut_copied');
+                        }, 2000);
+                    }).catch(() => {
+                        const textArea = document.createElement('textarea');
+                        textArea.value = shareUrl;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        
+                        const originalText = this.textContent;
+                        this.textContent = 'URL Copied!';
+                        this.classList.add('tut_copied');
+                        
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.classList.remove('tut_copied');
+                        }, 2000);
+                    });
+                });
+
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.tut_play_button') && !e.target.closest('.tut_share_button')) {
+                        const videoUrl = this.getAttribute('data-video-url');
+                        const title = this.getAttribute('data-title');
+                        tut_openVideoModal(videoUrl, title);
+                    }
+                });
+            });
+        }
+
+        function tut_initializePage() {
+            tut_currentLanguage = tut_getCurrentLanguage();
+            
+            // Get search term from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            tut_currentSearchTerm = urlParams.get('search') || '';
+            
+            // Update UI
+            tut_updateDropdownDisplay(tut_currentLanguage);
+            document.getElementById('tut_searchInput').value = tut_currentSearchTerm;
+            
+            // Wait for video_list to be loaded if needed
+            function tryRender() {
+                if (typeof video_list !== 'undefined') {
+                    // Render videos
+                    tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm);
+                    
+                    // Check for auto-play video
+                    setTimeout(() => {
+                        tut_checkAutoPlayVideo();
+                    }, 100);
+                } else {
+                    // If video_list is not loaded yet, try again after a short delay
+                    setTimeout(tryRender, 100);
+                }
+            }
+            
+            tryRender();
+        }
+
+        function tut_updateDropdownDisplay(lang) {
+            const selectedLanguage = document.getElementById('tut_selectedLanguage');
+            const dropdownItems = document.querySelectorAll('.tut_dropdown_item');
+            
+            selectedLanguage.textContent = tut_languageNames[lang] || tut_languageNames.en;
+            
+            dropdownItems.forEach(item => {
+                item.classList.remove('tut_active');
+                if (item.getAttribute('data-lang') === lang) {
+                    item.classList.add('tut_active');
+                }
+            });
+        }
+
+        // Get modal elements
+        const tut_modal = document.getElementById('tut_videoModal');
+        const tut_modalTitle = document.getElementById('tut_modalTitle');
+        const tut_youtubeIframe = document.getElementById('tut_youtubeIframe');
+        const tut_closeModal = document.getElementById('tut_closeModal');
+
+        // Get control elements
+        const tut_languageToggle = document.getElementById('tut_languageToggle');
+        const tut_languageMenu = document.getElementById('tut_languageMenu');
+        const tut_searchInput = document.getElementById('tut_searchInput');
+
+        // Dropdown functionality
+        tut_languageToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            tut_languageToggle.classList.toggle('tut_active');
+            tut_languageMenu.classList.toggle('tut_show');
+        });
+
+        document.addEventListener('click', function() {
+            tut_languageToggle.classList.remove('tut_active');
+            tut_languageMenu.classList.remove('tut_show');
+        });
+
+        // Language selection
+        document.querySelectorAll('.tut_dropdown_item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const selectedLang = this.getAttribute('data-lang');
+                
+                tut_updateDropdownDisplay(selectedLang);
+                
+                tut_languageToggle.classList.remove('tut_active');
+                tut_languageMenu.classList.remove('tut_show');
+                
+                // Check if there's a video ID in the URL
+                const videoId = tut_getVideoIdFromURL();
+                if (videoId) {
+                    // Find video in new language
+                    const result = tut_findVideoInLanguage(videoId, selectedLang);
+                    if (result) {
+                        const { video, language } = result;
+                        
+                        // Update current language
+                        tut_currentLanguage = language;
+                        
+                        // Update URL with new language
+                        const url = new URL(window.location);
+                        url.searchParams.set('lang', language);
+                        url.searchParams.set('id', videoId);
+                        window.history.pushState({}, '', url);
+                        
+                        // If modal is open, update video in modal
+                        if (tut_modal.style.display === 'block') {
+                            // Update title
+                            tut_modalTitle.textContent = video.title;
+                            
+                            // Update video content
+                            const embedUrl = tut_convertToEmbedUrl(video.url);
+                            
+                            if (video.url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) || video.url.includes('amazonaws.com')) {
+                                // Handle video file
+                                tut_youtubeIframe.style.display = 'none';
+                                const videoContainer = tut_youtubeIframe.parentElement;
+                                
+                                const existingVideo = videoContainer.querySelector('video');
+                                if (existingVideo) {
+                                    existingVideo.remove();
+                                }
+                                
+                                videoContainer.insertAdjacentHTML('beforeend', tut_createVideoElement(embedUrl));
+                            } else {
+                                // Handle YouTube video
+                                const existingVideo = tut_youtubeIframe.parentElement.querySelector('video');
+                                if (existingVideo) {
+                                    existingVideo.remove();
+                                }
+                                tut_youtubeIframe.style.display = 'block';
+                                tut_youtubeIframe.src = embedUrl;
+                            }
+                        }
+                    }
+                } else {
+                    // If no video ID, just update language normally
+                    tut_currentLanguage = selectedLang;
+                    tut_updateURL(selectedLang, tut_currentSearchTerm);
+                }
+                
+                // Re-render video list
+                tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm);
+            });
+        });
+
+        // Search functionality
+        let tut_searchTimeout;
+        tut_searchInput.addEventListener('input', function() {
+            clearTimeout(tut_searchTimeout);
+            tut_searchTimeout = setTimeout(() => {
+                tut_currentSearchTerm = this.value;
+                tut_updateURL(tut_currentLanguage, tut_currentSearchTerm);
+                tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm);
+            }, 300); // Debounce search for 300ms
+        });
+
+        // Search on Enter key
+        tut_searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                clearTimeout(tut_searchTimeout);
+                tut_currentSearchTerm = this.value;
+                tut_updateURL(tut_currentLanguage, tut_currentSearchTerm);
+                tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm);
+            }
+        });
+
+        function tut_closeVideoModal() {
+            tut_modal.style.display = 'none';
+            tut_youtubeIframe.src = '';
+            
+            const videoElement = tut_modal.querySelector('video');
+            if (videoElement) {
+                videoElement.pause();
+                videoElement.remove();
+            }
+            
+            // Reset currentVideoId
+            tut_currentVideoId = null;
+            
+            const url = new URL(window.location);
+            url.searchParams.delete('id');
+            url.searchParams.delete('video_id');
+            window.history.pushState({}, '', url);
+            
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal events
+        tut_closeModal.addEventListener('click', tut_closeVideoModal);
+
+        tut_modal.addEventListener('click', function(e) {
+            if (e.target === tut_modal) {
+                tut_closeVideoModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && tut_modal.style.display === 'block') {
+                tut_closeVideoModal();
+            }
+        });
+
+        // Modal dropdown functionality
+        document.addEventListener('click', function(e) {
+            const modalToggle = document.getElementById('tut_modalLanguageToggle');
+            const modalMenu = document.getElementById('tut_modalLanguageMenu');
+            
+            if (modalToggle && modalMenu) {
+                if (e.target.closest('#tut_modalLanguageToggle')) {
+                    e.stopPropagation();
+                    modalToggle.classList.toggle('tut_active');
+                    modalMenu.classList.toggle('tut_show');
+                } else {
+                    modalToggle.classList.remove('tut_active');
+                    modalMenu.classList.remove('tut_show');
+                }
+            }
+        });
+
+        // Modal language selection
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('tut_modal_dropdown_item')) {
+                e.stopPropagation();
+                const selectedLang = e.target.getAttribute('data-lang');
+                
+                // Update modal dropdown display
+                tut_updateModalDropdownDisplay(selectedLang);
+                
+                // Close dropdown
+                const modalToggle = document.getElementById('tut_modalLanguageToggle');
+                const modalMenu = document.getElementById('tut_modalLanguageMenu');
+                if (modalToggle && modalMenu) {
+                    modalToggle.classList.remove('tut_active');
+                    modalMenu.classList.remove('tut_show');
+                }
+                
+                // Update main dropdown
+                tut_updateDropdownDisplay(selectedLang);
+                
+                // Handle language switching logic
+                const videoId = tut_getVideoIdFromURL() || tut_currentVideoId; // Use currentVideoId if URL doesn't have id
+                
+                if (videoId) {
+                    const result = tut_findVideoInLanguage(videoId, selectedLang);
+                    if (result) {
+                        const { video, language } = result;
+                        
+                        tut_currentLanguage = language;
+                        
+                        // Update URL if URL has video ID, otherwise just update language
+                        const urlVideoId = tut_getVideoIdFromURL();
+                        if (urlVideoId) {
+                            const url = new URL(window.location);
+                            url.searchParams.set('lang', language);
+                            url.searchParams.set('id', videoId);
+                            window.history.pushState({}, '', url);
+                        }
+                        
+                        // Update video in modal
+                        tut_modalTitle.textContent = video.title;
+                        
+                        const embedUrl = tut_convertToEmbedUrl(video.url);
+                        
+                        if (video.url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) || video.url.includes('amazonaws.com')) {
+                            tut_youtubeIframe.style.display = 'none';
+                            const videoContainer = tut_youtubeIframe.parentElement;
+                            
+                            const existingVideo = videoContainer.querySelector('video');
+                            if (existingVideo) {
+                                existingVideo.remove();
+                            }
+                            
+                            videoContainer.insertAdjacentHTML('beforeend', tut_createVideoElement(embedUrl));
+                        } else {
+                            const existingVideo = tut_youtubeIframe.parentElement.querySelector('video');
+                            if (existingVideo) {
+                                existingVideo.remove();
+                            }
+                            tut_youtubeIframe.style.display = 'block';
+                            tut_youtubeIframe.src = embedUrl;
+                        }
+                    }
+                } else {
+                    tut_currentLanguage = selectedLang;
+                    tut_updateURL(selectedLang, tut_currentSearchTerm);
+                }
+                
+                tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm);
+            }
+        });
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', tut_initializePage);
+
+        // Arrow functionality for pointing to chat widget
+        let arrow = document.querySelector('.arrow');
+        window.onscroll = function() {scrollFunction()};
+        document.addEventListener("DOMContentLoaded", function() {
+            scrollFunction()
+        });
+        document.addEventListener("resize", function() {
+            scrollFunction()
+        });
+
+        function scrollFunction() {
+            const titleElement = document.getElementById('hero_title');
+            if (!titleElement || !arrow) return;
+            
+            const rect = titleElement.getBoundingClientRect();
+            const x = rect.left;
+            const y = rect.top;
+            const width = rect.width;
+            const height = rect.height;
+            
+            console.log('X:', x);
+            console.log('Y:', y);
+            console.log('Width:', width);
+            console.log('Height:', height);
+            
+            // Check if title is visible in viewport
+            const windowHeight = window.innerHeight;
+            const isVisible = (rect.top < windowHeight && rect.bottom > 0);
+            
+            if (isVisible) {
+                // Calculate the title's bottom position
+                const titleBottomPosition = rect.bottom;
+                const titleRightPosition = rect.right;
+                
+                // Get the window's width
+                const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+                const lengthFromTitleRightToScreenRight = viewportWidth - rect.right;
+                
+                // Calculate the height from the title to the bottom of the screen
+                const heightFromTitleToBottom = windowHeight - titleBottomPosition;
+                
+                // Calculate target position (chat widget position - same as original code)
+                const targetRight = 40; // Original right position
+                const targetBottom = 105; // Original bottom position
+                const targetX = viewportWidth - targetRight;
+                const targetY = windowHeight - targetBottom;
+                
+                // Calculate arrow dimensions to reach the target
+                const arrowWidth = Math.max(0, targetX - rect.right - 10);
+                const arrowHeight = Math.max(0, targetY - (rect.top + height/2));
+                
+                // Update arrow position and size
+                arrow.style.height = Math.round(arrowHeight) + 'px';
+                arrow.style.width = Math.round(arrowWidth) + 'px';
+                
+                // Position arrow to start from the title
+                arrow.style.top = (rect.top + height/2) + 'px';
+                arrow.style.left = (rect.right + 10) + 'px';
+                
+                // Show the arrow
+                arrow.style.display = "block";
+            } else {
+                // Hide the arrow when title is not visible
+                arrow.style.display = "none";
+            }
+        }
+    </script>
+
+    <!-- Live chat widget integration -->
+    <script src="https://contentmaster.ai/statics/lcwuwg.js" r=60 b="2284f0" c="fff" t="Live chat with us" site="huubinhnguyen" m=1></script>
+
+</body>
+</html>
