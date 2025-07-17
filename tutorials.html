@@ -25,6 +25,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="preload" href="https://contentmaster.ai/assets/fonts/Bank-Gothic-Light-Regular.woff" as="font" type="font/woff" crossorigin>
     <meta name="twitter:image" content="https://contentmaster.ai/statics/social_banner.jpg">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     <style>
         * {
             margin: 0;
@@ -822,8 +824,137 @@
                 padding-bottom: 120%;
             }
         }
+        .tut_category_dropdown {
+            position: relative;
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .tut_category_dropdown_item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #333;
+            transition: background-color 0.3s ease;
+        }
+
+        .tut_category_dropdown_item:hover {
+            background-color: #444;
+        }
+
+        .tut_category_dropdown_item.tut_active {
+            background-color: #4486ff;
+            color: white;
+        }
+
+        .tut_category_dropdown_item:last-child {
+            border-bottom: none;
+        }
+
+        /* Custom Plyr styling */
+        .plyr {
+            border-radius: 8px;
+        }
+
+        .plyr--video {
+            background: #000;
+        }
+
+        .plyr__controls {
+            background: linear-gradient(transparent, rgba(0,0,0,.7));
+        }
+
+        .plyr__control--overlaid {
+            background: rgba(255,255,255,.9);
+        }
+
+        .tut_controls_section {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* Equal spacing between all elements */
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Reset all individual margins */
+        .tut_category_dropdown,
+        .tut_language_dropdown,
+        .tut_search_container {
+            margin: 0;
+        }
+
+        /* Responsive behavior */
+        @media (max-width: 768px) {
+            .tut_controls_section {
+                gap: 15px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+        /* Controls section styling */
+        .tut_controls_section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Desktop - keep original spacing */
+        .tut_category_dropdown,
+        .tut_language_dropdown {
+            margin: 0;
+        }
+
+        .tut_search_container {
+            margin: 0;
+            flex: 1; /* This makes search container grow on desktop */
+        }
+
+        /* Mobile specific styles */
+        @media (max-width: 768px) {
+            .tut_controls_section {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            
+            /* Force all containers to full width */
+            .tut_category_dropdown,
+            .tut_language_dropdown,
+            .tut_search_container {
+                width: 100% !important;
+                display: block;
+            }
+            
+            /* Search input full width */
+            .tut_search_input {
+                width: 100% !important;
+                box-sizing: border-box;
+                min-width: unset;
+            }
+            
+            /* Dropdown buttons full width */
+            .tut_dropdown_toggle {
+                width: 100% !important;
+                box-sizing: border-box;
+                text-align: left;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .tut_controls_section {
+                gap: 12px;
+                padding: 0 10px;
+            }
+            
+            .tut_search_input {
+                padding: 12px 16px;
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+        }
     </style>
-    <script src="https://contentmaster.ai/video_list.js"></script>
 
 </head>
 <body>
@@ -839,6 +970,17 @@
 
         <!-- Controls Section -->
         <div class="tut_controls_section">
+            <!-- Category Filter -->
+            <div class="tut_category_dropdown">
+                <div class="tut_dropdown_toggle" id="tut_categoryToggle">
+                    <span id="tut_selectedCategory">All Categories</span>
+                    <span class="tut_dropdown_arrow">▼</span>
+                </div>
+                <div class="tut_dropdown_menu" id="tut_categoryMenu">
+                    <!-- Category options will be dynamically generated -->
+                </div>
+            </div>
+
             <!-- Language Filter -->
             <div class="tut_language_dropdown">
                 <div class="tut_dropdown_toggle" id="tut_languageToggle">
@@ -846,15 +988,7 @@
                     <span class="tut_dropdown_arrow">▼</span>
                 </div>
                 <div class="tut_dropdown_menu" id="tut_languageMenu">
-                    <div class="tut_dropdown_item tut_active" data-lang="en">🇺🇸 English</div>
-                    <div class="tut_dropdown_item" data-lang="es">🇪🇸 Español</div>
-                    <div class="tut_dropdown_item" data-lang="vi">🇻🇳 Tiếng Việt</div>
-                    <div class="tut_dropdown_item" data-lang="hi">🇮🇳 हिन्दी</div>
-                    <div class="tut_dropdown_item" data-lang="ar">🇸🇦 العربية</div>
-                    <div class="tut_dropdown_item" data-lang="pt">🇧🇷 Português</div>
-                    <div class="tut_dropdown_item" data-lang="fr">🇫🇷 Français</div>
-                    <div class="tut_dropdown_item" data-lang="de">🇩🇪 Deutsch</div>
-                    <div class="tut_dropdown_item" data-lang="it">🇮🇹 Italiano</div>
+                    <!-- Language options will be dynamically generated -->
                 </div>
             </div>
 
@@ -883,15 +1017,7 @@
                         <span class="tut_dropdown_arrow">▼</span>
                     </div>
                     <div class="tut_modal_dropdown_menu" id="tut_modalLanguageMenu">
-                        <div class="tut_modal_dropdown_item tut_active" data-lang="en">🇺🇸 English</div>
-                        <div class="tut_modal_dropdown_item" data-lang="es">🇪🇸 Español</div>
-                        <div class="tut_modal_dropdown_item" data-lang="vi">🇻🇳 Tiếng Việt</div>
-                        <div class="tut_modal_dropdown_item" data-lang="hi">🇮🇳 हिन्दी</div>
-                        <div class="tut_modal_dropdown_item" data-lang="ar">🇸🇦 العربية</div>
-                        <div class="tut_modal_dropdown_item" data-lang="pt">🇧🇷 Português</div>
-                        <div class="tut_modal_dropdown_item" data-lang="fr">🇫🇷 Français</div>
-                        <div class="tut_modal_dropdown_item" data-lang="de">🇩🇪 Deutsch</div>
-                        <div class="tut_modal_dropdown_item" data-lang="it">🇮🇹 Italiano</div>
+                        <!-- Language options will be dynamically generated -->
                     </div>
                 </div>
                 
@@ -940,71 +1066,159 @@
     </style>
 
     <script>
-        // Language display names
-        const tut_languageNames = {
-            en: '🇺🇸 English',
-            es: '🇪🇸 Español', 
-            vi: '🇻🇳 Tiếng Việt',
-            hi: '🇮🇳 हिन्दी',
-            ar: '🇸🇦 العربية',
-            pt: '🇧🇷 Português',
-            fr: '🇫🇷 Français',
-            de: '🇩🇪 Deutsch',
-            it: '🇮🇹 Italiano'
-        };
+        // Global variable to store video data
+        let video_list = [];
 
-        // Category titles for different languages
-        const tut_categoryTitles = {
-            en: {
-                beginner: "Beginner",
-                advanced: "Advanced", 
-                daily_usage: "Daily Usage"
-            },
-            es: {
-                beginner: "Principiante",
-                advanced: "Avanzado",
-                daily_usage: "Uso Diario"
-            },
-            hi: {
-                beginner: "शुरुआती",
-                advanced: "उन्नत",
-                daily_usage: "दैनिक उपयोग"
-            },
-            ar: {
-                beginner: "مبتدئ",
-                advanced: "متقدم",
-                daily_usage: "الاستخدام اليومي"
-            },
-            pt: {
-                beginner: "Iniciante",
-                advanced: "Avançado",
-                daily_usage: "Uso Diário"
-            },
-            fr: {
-                beginner: "Débutant",
-                advanced: "Avancé",
-                daily_usage: "Usage Quotidien"
-            },
-            de: {
-                beginner: "Anfänger",
-                advanced: "Fortgeschritten",
-                daily_usage: "Tägliche Nutzung"
-            },
-            it: {
-                beginner: "Principiante",
-                advanced: "Avanzato",
-                daily_usage: "Uso Quotidiano"
-            },
-            vi: {
-                beginner: "Cơ bản",
-                advanced: "Nâng cao",
-                daily_usage: "Sử dụng hàng ngày"
-            }
-        };
+        // Dynamic generation of language names and category titles
+        let tut_languageNames = {};
+        let tut_categoryTitles = {};
 
         // Global variables
         let tut_currentLanguage = 'en';
         let tut_currentSearchTerm = '';
+        let tut_currentCategory = ''; // New global variable for category filter
+
+        // Helper function to capitalize first letter
+        function tut_capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Helper function to format category name (replace underscores with spaces and capitalize)
+        function tut_formatCategoryName(category) {
+            return category.replace(/_/g, ' ').split(' ').map(word => tut_capitalize(word)).join(' ');
+        }
+
+        // Function to get CID from URL with default fallback
+        function tut_getCidFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('cid') || 'huubinhnguyen';
+        }
+
+        // Function to fetch video data from API
+        async function tut_fetchVideoData() {
+            try {
+                const cid = tut_getCidFromURL();
+                const response = await fetch(`https://contentmaster.ai/app/dashboard2/get_tutorial_videos?cid=${cid}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Assign the fetched data to video_list
+                video_list = data;
+                
+                console.log('Video data fetched successfully:', video_list);
+                return true;
+                
+            } catch (error) {
+                console.error('Error fetching video data:', error);
+                
+                // Fallback to empty array if API fails
+                video_list = [];
+                return false;
+            }
+        }
+
+        // Function to generate language names and category titles from video list
+        function tut_generateLanguageAndCategoryData() {
+            // Reset data
+            tut_languageNames = {};
+            tut_categoryTitles = {};
+            
+            // Check if video_list is empty
+            if (!video_list || video_list.length === 0) {
+                console.warn('No video data available to generate language and category data');
+                return;
+            }
+            
+            // Get unique languages from video list
+            const uniqueLanguages = [...new Set(video_list.map(video => video.language))];
+            
+            // Generate language names - use the language value directly with capitalization
+            uniqueLanguages.forEach(lang => {
+                tut_languageNames[lang] = tut_capitalize(lang);
+            });
+
+            // Get unique categories from video list
+            const uniqueCategories = [...new Set(video_list.map(video => video.category))];
+            
+            // Generate category titles for each language - use category value directly with formatting
+            uniqueLanguages.forEach(language => {
+                tut_categoryTitles[language] = {};
+                uniqueCategories.forEach(category => {
+                    tut_categoryTitles[language][category] = tut_formatCategoryName(category);
+                });
+            });
+        }
+
+        // Function to generate dropdown items
+        function tut_generateLanguageDropdownItems() {
+            const languageMenu = document.getElementById('tut_languageMenu');
+            const modalLanguageMenu = document.getElementById('tut_modalLanguageMenu');
+            
+            let dropdownHTML = '';
+            
+            Object.keys(tut_languageNames).forEach(langCode => {
+                dropdownHTML += `<div class="tut_dropdown_item" data-lang="${langCode}">${tut_languageNames[langCode]}</div>`;
+            });
+            
+            // Update both dropdowns
+            if (languageMenu) languageMenu.innerHTML = dropdownHTML;
+            if (modalLanguageMenu) {
+                modalLanguageMenu.innerHTML = dropdownHTML.replace(/tut_dropdown_item/g, 'tut_modal_dropdown_item');
+            }
+        }
+
+        // Function to generate category dropdown items
+        function tut_generateCategoryDropdownItems() {
+            const categoryMenu = document.getElementById('tut_categoryMenu');
+            
+            if (!categoryMenu) return;
+            
+            // Get unique categories from current language videos
+            const languageVideos = video_list.filter(video => video.language === tut_currentLanguage);
+            const uniqueCategories = [...new Set(languageVideos.map(video => video.category))];
+            
+            let dropdownHTML = '';
+            
+            // Add "All" option at the beginning
+            dropdownHTML += `<div class="tut_category_dropdown_item" data-category="all">All Categories</div>`;
+            
+            // Add categories after "All"
+            uniqueCategories.forEach(category => {
+                const displayName = tut_categoryTitles[tut_currentLanguage] ? 
+                    tut_categoryTitles[tut_currentLanguage][category] : 
+                    tut_formatCategoryName(category);
+                dropdownHTML += `<div class="tut_category_dropdown_item" data-category="${category}">${displayName}</div>`;
+            });
+            
+            categoryMenu.innerHTML = dropdownHTML;
+        }
+
+        function tut_updateCategoryDropdownDisplay(category) {
+            const selectedCategory = document.getElementById('tut_selectedCategory');
+            const dropdownItems = document.querySelectorAll('.tut_category_dropdown_item');
+            
+            if (selectedCategory) {
+                if (category === 'all') {
+                    selectedCategory.textContent = 'All Categories';
+                } else {
+                    const displayName = tut_categoryTitles[tut_currentLanguage] ? 
+                        tut_categoryTitles[tut_currentLanguage][category] : 
+                        tut_formatCategoryName(category);
+                    selectedCategory.textContent = displayName;
+                }
+            }
+            
+            dropdownItems.forEach(item => {
+                item.classList.remove('tut_active');
+                if (item.getAttribute('data-category') === category) {
+                    item.classList.add('tut_active');
+                }
+            });
+        }
 
         // Helper function to extract YouTube video ID from URL
         function tut_extractYouTubeVideoId(url) {
@@ -1046,7 +1260,22 @@
 
         function tut_getCurrentLanguage() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('lang') || urlParams.get('language') || 'en';
+            const langFromUrl = urlParams.get('lang') || urlParams.get('language');
+            
+            // If language from URL exists in our data, use it
+            if (langFromUrl && tut_languageNames[langFromUrl]) {
+                return langFromUrl;
+            }
+            
+            // Default to first available language
+            const availableLanguages = Object.keys(tut_languageNames);
+            return availableLanguages.length > 0 ? availableLanguages[0] : 'english';
+        }
+
+        // Updated function to get current category from URL
+        function tut_getCurrentCategory() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('category') || '';
         }
 
         function tut_getVideoIdFromURL() {
@@ -1054,8 +1283,13 @@
             return urlParams.get('id');
         }
 
-        function tut_updateURL(lang, searchTerm = '') {
+        // Updated function to preserve CID in URL and add category
+        function tut_updateURL(lang, searchTerm = '', category = '') {
             const url = new URL(window.location);
+            const cid = tut_getCidFromURL();
+            
+            // Always preserve CID
+            url.searchParams.set('cid', cid);
             url.searchParams.set('lang', lang);
             url.searchParams.delete('language');
             
@@ -1065,40 +1299,59 @@
                 url.searchParams.delete('search');
             }
             
+            if (category && category !== 'all') {
+                url.searchParams.set('category', category);
+            } else {
+                url.searchParams.delete('category');
+            }
+            
             window.history.pushState({}, '', url);
         }
 
+        // Updated function to preserve CID in share URL
         function tut_generateShareURL(videoId) {
             const url = new URL(window.location);
+            const cid = tut_getCidFromURL();
             
-            url.searchParams.set('id', videoId); // Use video.id directly
+            // Always preserve CID
+            url.searchParams.set('cid', cid);
+            url.searchParams.set('id', videoId);
             url.searchParams.set('lang', tut_currentLanguage);
             url.searchParams.delete('language');
             url.searchParams.delete('video_id');
-            url.searchParams.delete('search'); // Remove search when sharing specific video
+            url.searchParams.delete('search');
             
             return url.toString();
         }
 
         function tut_findVideoById(videoId) {
-            if (typeof video_list === 'undefined') {
-                return null;
-            }
-            
-            // Search through all languages and categories
+            // Search in new format
             const results = [];
-            for (let langData of video_list) {
-                for (let categoryData of langData.videos) {
-                    const video = categoryData.list.find(v => v.id === videoId);
-                    if (video) {
-                        results.push({
-                            video: video,
-                            language: langData.lang
-                        });
-                    }
+            
+            console.log('Searching for video ID:', videoId);
+            console.log('Total videos in list:', video_list.length);
+            
+            video_list.forEach((video, index) => {
+                // Debug log for first few videos
+                if (index < 3) {
+                    console.log(`Video ${index}:`, {
+                        id: video.id,
+                        title: video.title,
+                        language: video.language
+                    });
                 }
-            }
-            return results; // Return array instead of first object
+                
+                if (video.id === videoId) {
+                    console.log('Found matching video:', video.title, 'in language:', video.language);
+                    results.push({
+                        video: video,
+                        language: video.language
+                    });
+                }
+            });
+            
+            console.log('Search results:', results.length, 'matches found');
+            return results;
         }
 
         function tut_findVideoInLanguage(videoId, targetLang) {
@@ -1120,7 +1373,7 @@
             const modalDropdownItems = document.querySelectorAll('.tut_modal_dropdown_item');
             
             if (modalSelectedLanguage) {
-                modalSelectedLanguage.textContent = tut_languageNames[lang] || tut_languageNames.en;
+                modalSelectedLanguage.textContent = tut_languageNames[lang] || tut_capitalize(lang);
             }
             
             modalDropdownItems.forEach(item => {
@@ -1135,67 +1388,166 @@
             return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
         }
 
-        function tut_getThumbnailUrl(url, fallbackIndex) {
+        function tut_getThumbnailUrl(url, fallbackIndex, video = null) {
+            // First priority: Check if video object has thumbnail_url
+            if (video && video.thumbnail_url && video.thumbnail_url.trim() !== '') {
+                // Check if this is for a direct video (not YouTube)
+                const youtubeId = tut_extractYouTubeVideoId(url);
+                const isDirectVideo = !youtubeId && (
+                    url && (
+                        url.match(/\.(mp4|webm|ogg|mov|avi|mkv|flv|wmv)(\?.*)?$/i) || 
+                        url.includes('amazonaws.com')
+                    ) ||
+                    (video.video_url && video.video_url.trim() !== '')
+                );
+                
+                if (isDirectVideo) {
+                    // For direct videos, try to generate small thumbnail first
+                    console.log('Using small thumbnail for direct video:', video.thumbnail_url);
+                    return tut_generateSmallThumbnailUrl(video.thumbnail_url, fallbackIndex);
+                } else {
+                    // For other cases, use thumbnail_url as-is
+                    console.log('Using video.thumbnail_url as-is:', video.thumbnail_url);
+                    return video.thumbnail_url;
+                }
+            }
+            
+            // Second priority: Extract YouTube thumbnail if it's a YouTube URL
             const youtubeId = tut_extractYouTubeVideoId(url);
             if (youtubeId) {
+                console.log('Using YouTube thumbnail for ID:', youtubeId);
                 return tut_getYouTubeThumbnail(youtubeId);
             }
+            
+            // Last fallback: Random image
+            console.log('Using random fallback thumbnail for index:', fallbackIndex);
             return `https://picsum.photos/95/169?random=${fallbackIndex}`;
         }
 
-        // Search function
-        function tut_searchVideos(searchTerm, lang) {
-            // Check if video_list is loaded
-            if (typeof video_list === 'undefined') {
-                return [];
+        // Helper function to generate small thumbnail URL and handle fallbacks
+        function tut_generateSmallThumbnailUrl(thumbnailUrl, fallbackIndex) {
+            try {
+                // Generate small thumbnail URL by adding "thumb_" prefix to filename
+                const url = new URL(thumbnailUrl);
+                const pathParts = url.pathname.split('/');
+                const fileName = pathParts[pathParts.length - 1];
+                
+                // Add "thumb_" prefix to filename
+                const smallFileName = 'thumb_' + fileName;
+                pathParts[pathParts.length - 1] = smallFileName;
+                url.pathname = pathParts.join('/');
+                
+                const smallThumbnailUrl = url.toString();
+                console.log('Generated small thumbnail URL:', smallThumbnailUrl);
+                
+                return smallThumbnailUrl;
+            } catch (error) {
+                console.error('Error generating small thumbnail URL:', error);
+                return thumbnailUrl; // Fallback to original URL
             }
+        }
+
+        // Updated search function to handle category filtering
+        function tut_searchVideos(searchTerm, lang, category = '') {
+            // Filter videos by language
+            let languageVideos = video_list.filter(video => video.language === lang);
             
-            const langData = video_list.find(item => item.lang === lang) || video_list.find(item => item.lang === 'en');
-            if (!langData) return [];
-
-            if (!searchTerm.trim()) {
-                return langData.videos; // Return all videos if no search term
-            }
-
-            const searchLower = searchTerm.toLowerCase();
-            const filteredCategories = [];
-
-            langData.videos.forEach(categoryData => {
-                const filteredVideos = categoryData.list.filter(video => 
+            if (searchTerm.trim()) {
+                // If searching, ignore category filter and search in all videos
+                const searchLower = searchTerm.toLowerCase();
+                const filteredVideos = languageVideos.filter(video => 
                     video.title.toLowerCase().includes(searchLower) ||
-                    video.desc.toLowerCase().includes(searchLower)
+                    video.description.toLowerCase().includes(searchLower)
                 );
 
-                if (filteredVideos.length > 0) {
-                    filteredCategories.push({
-                        category: categoryData.category,
-                        list: filteredVideos
-                    });
+                // Group filtered videos by category
+                const categories = [...new Set(filteredVideos.map(video => video.category))];
+                return categories.map(cat => ({
+                    category: cat,
+                    list: filteredVideos.filter(video => video.category === cat)
+                }));
+            } else {
+                // No search term, apply category filter
+                if (category && category !== 'all') {
+                    languageVideos = languageVideos.filter(video => video.category === category);
+                    return [{
+                        category: category,
+                        list: languageVideos
+                    }];
+                } else {
+                    // Show all categories
+                    const categories = [...new Set(languageVideos.map(video => video.category))];
+                    return categories.map(cat => ({
+                        category: cat,
+                        list: languageVideos.filter(video => video.category === cat)
+                    }));
                 }
-            });
-
-            return filteredCategories;
+            }
         }
 
         function tut_createVideoCard(video, index) {
-            const thumbnailUrl = tut_getThumbnailUrl(video.url, index);
+            // Pass video object to getThumbnailUrl for thumbnail_url access
+            const thumbnailUrl = tut_getThumbnailUrl(video.url || video.video_url, index, video);
+            
+            // Debug log to check video.id and thumbnail
+            console.log('Creating video card for:', video.title, 'ID:', video.id, 'Thumbnail:', thumbnailUrl);
+            
+            // Ensure video.id exists and is not undefined
+            const videoId = video.id || video.video_id || `video_${index}`;
+            
+            // Create fallback chain for thumbnail loading
+            const originalThumbnailUrl = video.thumbnail_url || '';
+            const randomFallbackUrl = `https://picsum.photos/95/169?random=${index}`;
             
             return `
-                <div class="tut_video_card" data-video-url="${video.url}" data-video-id="${video.id}" data-title="${video.title}">
+                <div class="tut_video_card" 
+                     data-video-url="${video.url || ''}" 
+                     data-fallback-video-url="${video.video_url || ''}"
+                     data-video-id="${videoId}" 
+                     data-title="${video.title}">
                     <div class="tut_video_thumbnail">
-                        <img src="${thumbnailUrl}" alt="${video.title}" onerror="this.src='https://picsum.photos/95/169?random=${index}'">
+                        <img src="${thumbnailUrl}" 
+                             alt="${video.title}" 
+                             data-original-thumbnail="${originalThumbnailUrl}"
+                             data-random-fallback="${randomFallbackUrl}"
+                             onerror="tut_handleThumbnailError(this, '${originalThumbnailUrl}', '${randomFallbackUrl}')">
                         <div class="tut_play_button_overlay"></div>
                     </div>
                     <div class="tut_video_content">
                         <h3 class="tut_video_title">${video.title}</h3>
-                        <p class="tut_video_description">${video.desc}</p>
+                        <p class="tut_video_description">${video.description}</p>
                         <div class="tut_video_actions">
                             <button class="tut_play_button">Play</button>
-                            <button class="tut_share_button" data-video-id="${video.id}">Share</button>
+                            <button class="tut_share_button" data-video-id="${videoId}">Share</button>
                         </div>
                     </div>
                 </div>
             `;
+        }
+        // Global function to handle thumbnail loading errors with fallback chain
+        function tut_handleThumbnailError(imgElement, originalThumbnailUrl, randomFallbackUrl) {
+            const currentSrc = imgElement.src;
+            const isSmallThumbnail = currentSrc.includes('thumb_');
+            
+            console.log('Thumbnail error for:', currentSrc);
+            
+            if (isSmallThumbnail && originalThumbnailUrl && originalThumbnailUrl.trim() !== '') {
+                // First fallback: Try original large thumbnail
+                console.log('Falling back to original thumbnail:', originalThumbnailUrl);
+                imgElement.src = originalThumbnailUrl;
+                
+                // Set up next fallback level
+                imgElement.onerror = function() {
+                    console.log('Original thumbnail also failed, using random fallback');
+                    this.src = randomFallbackUrl;
+                    this.onerror = null; // Prevent infinite loop
+                };
+            } else if (currentSrc !== randomFallbackUrl) {
+                // Final fallback: Random image
+                console.log('Using final random fallback:', randomFallbackUrl);
+                imgElement.src = randomFallbackUrl;
+                imgElement.onerror = null; // Prevent infinite loop
+            }
         }
 
         function tut_createSection(category, videos, lang) {
@@ -1215,26 +1567,54 @@
             `;
         }
 
-        // Main render function
-        function tut_renderVideoList(lang, searchTerm = '') {
+        // Loading state functions
+        function tut_showLoading() {
+            const videoContent = document.getElementById('tut_videoContent');
+            if (videoContent) {
+                videoContent.innerHTML = `
+                    <div style="text-align: center; padding: 50px; color: #666;">
+                        <div style="font-size: 18px; margin-bottom: 10px;">Loading videos...</div>
+                        <div style="font-size: 14px;">Please wait while we fetch the latest content.</div>
+                    </div>
+                `;
+            }
+        }
+
+        function tut_showError() {
+            const videoContent = document.getElementById('tut_videoContent');
+            if (videoContent) {
+                videoContent.innerHTML = `
+                    <div style="text-align: center; padding: 50px; color: #e74c3c;">
+                        <div style="font-size: 18px; margin-bottom: 10px;">Failed to load videos</div>
+                        <div style="font-size: 14px; margin-bottom: 20px;">There was an error loading the video content.</div>
+                        <button onclick="location.reload()" style="padding: 10px 20px; background-color: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Try Again
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Main render function updated for category filtering
+        function tut_renderVideoList(lang, searchTerm = '', category = '') {
             const videoContent = document.getElementById('tut_videoContent');
             
-            // Check if video_list is loaded
-            if (typeof video_list === 'undefined') {
-                videoContent.innerHTML = '<p style="text-align: center; color: #aaa;">Loading videos...</p>';
+            // Check if video_list is empty
+            if (!video_list || video_list.length === 0) {
+                videoContent.innerHTML = '<p style="text-align: center; color: #aaa;">No videos available.</p>';
                 return;
             }
             
-            const filteredVideos = tut_searchVideos(searchTerm, lang);
+            const filteredVideos = tut_searchVideos(searchTerm, lang, category);
             
-            if (filteredVideos.length === 0) {
+            if (filteredVideos.length === 0 || filteredVideos.every(cat => cat.list.length === 0)) {
                 if (searchTerm.trim()) {
                     videoContent.innerHTML = `
                         <div class="tut_search_result_info">No videos found for "${searchTerm}"</div>
                         <div class="tut_no_results">Try searching with different keywords or check other languages.</div>
                     `;
                 } else {
-                    videoContent.innerHTML = '<p style="text-align: center; color: #aaa;">No videos available.</p>';
+                    videoContent.innerHTML = '<p style="text-align: center; color: #aaa;">No videos available in this category.</p>';
                 }
                 return;
             }
@@ -1245,11 +1625,20 @@
             if (searchTerm.trim()) {
                 const totalVideos = filteredVideos.reduce((sum, cat) => sum + cat.list.length, 0);
                 html += `<div class="tut_search_result_info">Found ${totalVideos} video(s) for "${searchTerm}"</div>`;
+            } else if (category && category !== 'all') {
+                // Show category filter info
+                const categoryDisplayName = tut_categoryTitles[lang] ? 
+                    tut_categoryTitles[lang][category] : 
+                    tut_formatCategoryName(category);
+                const totalVideos = filteredVideos.reduce((sum, cat) => sum + cat.list.length, 0);
+                html += `<div class="tut_search_result_info">Showing ${totalVideos} video(s) in "${categoryDisplayName}"</div>`;
             }
 
             // Render categories and videos
             filteredVideos.forEach(categoryData => {
-                html += tut_createSection(categoryData.category, categoryData.list, lang);
+                if (categoryData.list.length > 0) {
+                    html += tut_createSection(categoryData.category, categoryData.list, lang);
+                }
             });
 
             videoContent.innerHTML = html;
@@ -1275,41 +1664,297 @@
         }
 
         function tut_createVideoElement(url) {
+            // Handle empty or invalid URLs
+            if (!url || url.trim() === '') {
+                return `
+                    <div style="width: 95%; height: 95%; position: absolute; top: 2.5%; left: 2.5%; display: flex; align-items: center; justify-content: center; background-color: #000; color: #fff; font-size: 18px; border-radius: 8px; z-index: 10;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 48px; margin-bottom: 20px;">📹</div>
+                            <div>Video URL not available</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Generate unique ID for this video element
+            const videoElementId = `plyr-video-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
             return `
-                <video controls autoplay style="width: 95%; height: 95%; object-fit: contain; position: absolute; top: 2.5%; left: 2.5%; border-radius: 8px;">
-                    <source src="${url}" type="video/mp4">
-                    <source src="${url}" type="video/webm">
-                    Your browser does not support the video tag.
-                </video>
+                <div class="tut-plyr-container" style="
+                    width: 90%; 
+                    height: 80%; 
+                    position: absolute; 
+                    top: 10%; 
+                    left: 5%; 
+                    border-radius: 8px; 
+                    background: #000;
+                    z-index: 10;
+                    overflow: hidden;
+                    max-width: 100%;
+                    max-height: 100%;
+                ">
+                    <video 
+                        id="${videoElementId}"
+                        class="tut-plyr-video"
+                        controls 
+                        playsinline 
+                        preload="metadata"
+                        style="
+                            width: 100% !important; 
+                            height: 100% !important; 
+                            border-radius: 8px;
+                            object-fit: contain !important;
+                            background: #000 !important;
+                            display: block !important;
+                            opacity: 1 !important;
+                            visibility: visible !important;
+                        "
+                        poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzAwMCIvPjwvc3ZnPg=="
+                    >
+                        <source src="${url}" type="video/mp4">
+                        <source src="${url}" type="video/webm">
+                        <source src="${url}" type="video/ogg">
+                        <source src="${url}" type="video/mov">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             `;
         }
 
         // Add global variable to store current video ID
         let tut_currentVideoId = null;
 
-        function tut_openVideoModal(videoUrl, title, videoId = null) {
-            tut_modalTitle.textContent = title;
+        function tut_openVideoModal(videoUrl, title, videoId = null, fallbackVideoUrl = null) {
+            const tut_modal = document.getElementById('tut_videoModal');
+            const tut_modalTitle = document.getElementById('tut_modalTitle');
+            const tut_youtubeIframe = document.getElementById('tut_youtubeIframe');
             
-            // Store current video ID
+            if (!tut_modal || !tut_modalTitle || !tut_youtubeIframe) {
+                console.error('Modal elements not found');
+                return;
+            }
+            
+            tut_modalTitle.textContent = title;
             tut_currentVideoId = videoId;
             
-            const embedUrl = tut_convertToEmbedUrl(videoUrl);
-            
-            if (videoUrl.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) || videoUrl.includes('amazonaws.com')) {
-                tut_youtubeIframe.style.display = 'none';
-                const videoContainer = tut_youtubeIframe.parentElement;
-                
-                const existingVideo = videoContainer.querySelector('video');
-                if (existingVideo) {
-                    existingVideo.remove();
-                }
-                
-                videoContainer.insertAdjacentHTML('beforeend', tut_createVideoElement(embedUrl));
+            // Determine which URL to use
+            let finalVideoUrl = '';
+            if (videoUrl && videoUrl.trim() !== '') {
+                finalVideoUrl = videoUrl;
+                console.log('Using primary URL (YouTube):', finalVideoUrl);
+            } else if (fallbackVideoUrl && fallbackVideoUrl.trim() !== '') {
+                finalVideoUrl = fallbackVideoUrl;
+                console.log('Using fallback URL (video_url):', finalVideoUrl);
             } else {
-                const existingVideo = tut_youtubeIframe.parentElement.querySelector('video');
-                if (existingVideo) {
-                    existingVideo.remove();
+                console.log('Both URLs are empty');
+            }
+            
+            console.log('Opening video modal for final URL:', finalVideoUrl);
+            
+            // Clear existing content first
+            const videoContainer = tut_youtubeIframe.parentElement;
+            
+            // More thorough cleanup
+            const existingElements = videoContainer.querySelectorAll('video, .tut-plyr-container, .plyr, [id*="plyr-video"], div[style*="Video URL not available"]');
+            existingElements.forEach(el => el.remove());
+            
+            // Destroy any existing Plyr instances
+            if (window.currentPlyrInstance) {
+                try {
+                    window.currentPlyrInstance.destroy();
+                    window.currentPlyrInstance = null;
+                    console.log('Previous Plyr instance destroyed');
+                } catch (e) {
+                    console.log('Error destroying Plyr instance:', e);
                 }
+            }
+            
+            // Hide YouTube iframe first
+            tut_youtubeIframe.style.display = 'none';
+            
+            if (!finalVideoUrl || finalVideoUrl.trim() === '') {
+                console.log('No valid URL available, showing error message');
+                videoContainer.insertAdjacentHTML('beforeend', `
+                    <div style="width: 95%; height: 95%; position: absolute; top: 2.5%; left: 2.5%; display: flex; align-items: center; justify-content: center; background-color: #000; color: #fff; font-size: 18px; border-radius: 8px; z-index: 10;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 48px; margin-bottom: 20px;">📹</div>
+                            <div>Video URL not available</div>
+                        </div>
+                    </div>
+                `);
+            } else if (finalVideoUrl.match(/\.(mp4|webm|ogg|mov|avi|mkv|flv|wmv)(\?.*)?$/i) || finalVideoUrl.includes('amazonaws.com') || !tut_extractYouTubeVideoId(finalVideoUrl)) {
+                console.log('Using Plyr HTML5 video player for:', finalVideoUrl);
+                
+                // Insert video element
+                videoContainer.insertAdjacentHTML('beforeend', tut_createVideoElement(finalVideoUrl));
+                
+                // Debug: Check if element was inserted
+                const insertedContainer = videoContainer.querySelector('.tut-plyr-container');
+                const insertedVideo = videoContainer.querySelector('.tut-plyr-video');
+                
+                console.log('Video container inserted:', !!insertedContainer);
+                console.log('Video element inserted:', !!insertedVideo);
+                console.log('Video element dimensions:', insertedVideo ? {
+                    width: insertedVideo.offsetWidth,
+                    height: insertedVideo.offsetHeight,
+                    display: getComputedStyle(insertedVideo).display,
+                    visibility: getComputedStyle(insertedVideo).visibility
+                } : 'Not found');
+                
+                // Initialize Plyr after DOM insertion
+                setTimeout(() => {
+                    const videoElement = videoContainer.querySelector('.tut-plyr-video');
+                    console.log('Initializing Plyr for element:', videoElement);
+                    
+                    if (videoElement && typeof Plyr !== 'undefined') {
+                        try {
+                            // Plyr configuration
+                            const plyrConfig = {
+                                controls: [
+                                    'play-large', 
+                                    'play', 
+                                    'progress', 
+                                    'current-time',
+                                    'duration',
+                                    'mute', 
+                                    'volume', 
+                                    'settings',
+                                    'fullscreen'
+                                ],
+                                settings: ['quality', 'speed'],
+                                keyboard: { focused: true, global: false },
+                                tooltips: { controls: true, seek: true },
+                                fullscreen: { enabled: true, fallback: true, iosNative: false },
+                                autopause: false,
+                                autoplay: true,
+                                hideControls: false,
+                                clickToPlay: true,
+                                displayDuration: true
+                            };
+                            
+                            // Initialize Plyr
+                            window.currentPlyrInstance = new Plyr(videoElement, plyrConfig);
+                            console.log('Plyr instance created:', window.currentPlyrInstance);
+
+                            // Force video visibility and proper sizing for HTML5 video only
+                            setTimeout(() => {
+                                const plyrWrapper = videoContainer.querySelector('.plyr');
+                                const videoEl = videoContainer.querySelector('.tut-plyr-video');
+                                const plyrVideoWrapper = videoContainer.querySelector('.plyr__video-wrapper');
+                                const plyrContainer = videoContainer.querySelector('.tut-plyr-container');
+                                
+                                if (plyrContainer) {
+                                    plyrContainer.style.cssText = `
+                                        width: 90% !important; 
+                                        height: 70% !important; 
+                                        position: absolute !important; 
+                                        top: 0% !important; 
+                                        left: 5% !important; 
+                                        border-radius: 8px !important; 
+                                        background: #000 !important;
+                                        z-index: 10 !important;
+                                        overflow: hidden !important;
+                                        max-width: 100% !important;
+                                        max-height: 100% !important;
+                                    `;
+                                }
+                                
+                                if (plyrWrapper) {
+                                    plyrWrapper.style.cssText = `
+                                        position: relative !important;
+                                        z-index: 1000 !important;
+                                        width: 100% !important;
+                                        height: 100% !important;
+                                        background: #000 !important;
+                                        display: block !important;
+                                        border-radius: 8px !important;
+                                    `;
+                                }
+                                
+                                if (plyrVideoWrapper) {
+                                    plyrVideoWrapper.style.cssText = `
+                                        position: relative !important;
+                                        width: 100% !important;
+                                        height: 100% !important;
+                                        background: #000 !important;
+                                        overflow: hidden !important;
+                                        border-radius: 8px !important;
+                                    `;
+                                }
+                                
+                                if (videoEl) {
+                                    videoEl.style.cssText = `
+                                        width: 100% !important;
+                                        height: 100% !important;
+                                        object-fit: contain !important;
+                                        background: #000 !important;
+                                        display: block !important;
+                                        opacity: 1 !important;
+                                        visibility: visible !important;
+                                        position: relative !important;
+                                        z-index: 1 !important;
+                                        border-radius: 8px !important;
+                                    `;
+                                }
+                                
+                                console.log('Applied proper sizing to Plyr HTML5 video');
+                            }, 300);
+                            
+                            // Add event listeners for debugging
+                            window.currentPlyrInstance.on('ready', () => {
+                                console.log('Plyr player ready');
+                                console.log('Video dimensions after Plyr init:', {
+                                    videoWidth: videoElement.videoWidth,
+                                    videoHeight: videoElement.videoHeight,
+                                    elementWidth: videoElement.offsetWidth,
+                                    elementHeight: videoElement.offsetHeight
+                                });
+                            });
+                            
+                            window.currentPlyrInstance.on('loadstart', () => {
+                                console.log('Video loading started');
+                            });
+                            
+                            window.currentPlyrInstance.on('loadeddata', () => {
+                                console.log('Video data loaded');
+                            });
+                            
+                            window.currentPlyrInstance.on('canplay', () => {
+                                console.log('Video can start playing');
+                            });
+                            
+                            window.currentPlyrInstance.on('error', (event) => {
+                                console.error('Plyr error:', event);
+                            });
+                            
+                            // Force visibility
+                            setTimeout(() => {
+                                const plyrWrapper = videoContainer.querySelector('.plyr');
+                                if (plyrWrapper) {
+                                    plyrWrapper.style.zIndex = '1000';
+                                    plyrWrapper.style.position = 'relative';
+                                    console.log('Plyr wrapper found and styled');
+                                }
+                            }, 200);
+                            
+                        } catch (error) {
+                            console.error('Error initializing Plyr:', error);
+                            // Fallback to native video
+                            videoElement.style.display = 'block';
+                            videoElement.style.width = '100%';
+                            videoElement.style.height = '100%';
+                        }
+                    } else {
+                        console.error('Video element not found or Plyr not loaded');
+                        console.log('Plyr available:', typeof Plyr !== 'undefined');
+                        console.log('Video element:', videoElement);
+                    }
+                }, 200);
+                
+            } else {
+                // Use YouTube iframe for YouTube URLs
+                console.log('Using YouTube iframe for:', finalVideoUrl);
+                const embedUrl = tut_convertToEmbedUrl(finalVideoUrl);
                 tut_youtubeIframe.style.display = 'block';
                 tut_youtubeIframe.src = embedUrl;
             }
@@ -1324,19 +1969,54 @@
         function tut_checkAutoPlayVideo() {
             const videoId = tut_getVideoIdFromURL();
             if (videoId) {
-                const result = tut_findVideoInLanguage(videoId, tut_currentLanguage);
+                console.log('Checking auto-play for video ID:', videoId);
+                console.log('Current language:', tut_currentLanguage);
+                console.log('Available videos:', video_list.length);
+                
+                // First try to find in current language
+                let result = tut_findVideoInLanguage(videoId, tut_currentLanguage);
+                
+                if (!result) {
+                    // If not found in current language, try all languages
+                    console.log('Video not found in current language, searching all languages...');
+                    
+                    // Try to find video with this ID in any language
+                    const allResults = tut_findVideoById(videoId);
+                    console.log('Search results for ID:', allResults);
+                    
+                    if (allResults && allResults.length > 0) {
+                        result = allResults[0]; // Take first result
+                        console.log('Found video in language:', result.language);
+                    }
+                }
                 
                 if (result) {
                     const { video, language } = result;
-                    tut_openVideoModal(video.url, video.title, videoId); // Add videoId parameter
+                    console.log('Opening modal for video:', video.title, 'in language:', language);
+                    console.log('Video URLs - url:', video.url, 'video_url:', video.video_url);
+                    
+                    // Pass both video.url and video.video_url to modal
+                    tut_openVideoModal(video.url, video.title, videoId, video.video_url);
                     
                     // Update current language if needed
                     if (language !== tut_currentLanguage) {
+                        console.log('Updating language from', tut_currentLanguage, 'to', language);
                         tut_currentLanguage = language;
                         tut_updateDropdownDisplay(tut_currentLanguage);
+                        
+                        // Re-render with correct language
+                        tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm, tut_currentCategory);
                     }
                 } else {
-                    console.warn(`Video with ID "${videoId}" not found`);
+                    console.warn(`Video with ID "${videoId}" not found in any language`);
+                    console.log('Available video IDs:', video_list.map(v => v.id));
+                    
+                    // Remove invalid video ID from URL
+                    const url = new URL(window.location);
+                    const cid = tut_getCidFromURL();
+                    url.searchParams.set('cid', cid);
+                    url.searchParams.delete('id');
+                    window.history.replaceState({}, '', url);
                 }
             }
         }
@@ -1348,15 +2028,36 @@
                 playButton.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const videoUrl = card.getAttribute('data-video-url');
+                    const fallbackVideoUrl = card.getAttribute('data-fallback-video-url'); // New attribute
                     const title = card.getAttribute('data-title');
-                    const videoId = card.getAttribute('data-video-id'); // Add this line
-                    tut_openVideoModal(videoUrl, title, videoId); // Add videoId parameter
+                    const videoId = card.getAttribute('data-video-id');
+                    tut_openVideoModal(videoUrl, title, videoId, fallbackVideoUrl);
                 });
 
                 const shareButton = card.querySelector('.tut_share_button');
                 shareButton.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    const videoId = this.getAttribute('data-video-id'); // Use video.id
+                    const videoId = this.getAttribute('data-video-id');
+                    
+                    // Debug log to check videoId
+                    console.log('Share button clicked for video ID:', videoId);
+                    
+                    // Check if videoId is valid before generating share URL
+                    if (!videoId || videoId === 'undefined' || videoId === 'null') {
+                        console.error('Invalid video ID for sharing:', videoId);
+                        
+                        // Show error to user
+                        const originalText = this.textContent;
+                        this.textContent = 'Error: No ID';
+                        this.style.backgroundColor = '#e74c3c';
+                        
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.style.backgroundColor = '';
+                        }, 2000);
+                        return;
+                    }
+                    
                     const shareUrl = tut_generateShareURL(videoId);
                     
                     navigator.clipboard.writeText(shareUrl).then(() => {
@@ -1390,48 +2091,97 @@
                 card.addEventListener('click', function(e) {
                     if (!e.target.closest('.tut_play_button') && !e.target.closest('.tut_share_button')) {
                         const videoUrl = this.getAttribute('data-video-url');
+                        const fallbackVideoUrl = this.getAttribute('data-fallback-video-url'); // New attribute
                         const title = this.getAttribute('data-title');
-                        tut_openVideoModal(videoUrl, title);
+                        const videoId = this.getAttribute('data-video-id');
+                        tut_openVideoModal(videoUrl, title, videoId, fallbackVideoUrl);
                     }
                 });
             });
         }
 
-        function tut_initializePage() {
+        // Updated initialization function
+        async function tut_initializePage() {
+            // Show loading state
+            tut_showLoading();
+            
+            // Fetch video data from API
+            const fetchSuccess = await tut_fetchVideoData();
+            
+            if (!fetchSuccess) {
+                tut_showError();
+                return;
+            }
+            
+            // Debug log to check fetched data structure
+            console.log('API Response - Total videos:', video_list.length);
+            console.log('First video in list:', video_list[0]);
+            console.log('Sample video IDs:', video_list.slice(0, 5).map(v => v.id));
+            
+            // Generate language and category data from fetched videos
+            tut_generateLanguageAndCategoryData();
+            
+            // Set current language
             tut_currentLanguage = tut_getCurrentLanguage();
+            console.log('Current language set to:', tut_currentLanguage);
+            
+            // Get category from URL or set to "All Categories" as default
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryFromUrl = urlParams.get('category');
+            
+            // Get available categories for current language
+            const languageVideos = video_list.filter(video => video.language === tut_currentLanguage);
+            const availableCategories = [...new Set(languageVideos.map(video => video.category))];
+            
+            if (categoryFromUrl && categoryFromUrl === 'all') {
+                // If URL explicitly has 'all', use it
+                tut_currentCategory = 'all';
+            } else if (categoryFromUrl && availableCategories.includes(categoryFromUrl)) {
+                // Use category from URL if it exists in current language
+                tut_currentCategory = categoryFromUrl;
+            } else {
+                // Default to 'all' instead of first category
+                tut_currentCategory = 'all';
+            }
+            
+            console.log('Current category set to:', tut_currentCategory);
             
             // Get search term from URL
-            const urlParams = new URLSearchParams(window.location.search);
             tut_currentSearchTerm = urlParams.get('search') || '';
+            
+            // Check if there's a video ID in URL for auto-play
+            const videoIdFromUrl = tut_getVideoIdFromURL();
+            console.log('Video ID from URL:', videoIdFromUrl);
+            
+            // Generate dropdown items
+            tut_generateLanguageDropdownItems();
+            tut_generateCategoryDropdownItems();
             
             // Update UI
             tut_updateDropdownDisplay(tut_currentLanguage);
-            document.getElementById('tut_searchInput').value = tut_currentSearchTerm;
+            tut_updateCategoryDropdownDisplay(tut_currentCategory);
             
-            // Wait for video_list to be loaded if needed
-            function tryRender() {
-                if (typeof video_list !== 'undefined') {
-                    // Render videos
-                    tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm);
-                    
-                    // Check for auto-play video
-                    setTimeout(() => {
-                        tut_checkAutoPlayVideo();
-                    }, 100);
-                } else {
-                    // If video_list is not loaded yet, try again after a short delay
-                    setTimeout(tryRender, 100);
-                }
+            const searchInput = document.getElementById('tut_searchInput');
+            if (searchInput) {
+                searchInput.value = tut_currentSearchTerm;
             }
             
-            tryRender();
+            // Render videos
+            tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm, tut_currentCategory);
+            
+            // Check for auto-play video after a short delay to ensure DOM is ready
+            setTimeout(() => {
+                tut_checkAutoPlayVideo();
+            }, 500); // Increased delay to ensure everything is rendered
         }
 
         function tut_updateDropdownDisplay(lang) {
             const selectedLanguage = document.getElementById('tut_selectedLanguage');
             const dropdownItems = document.querySelectorAll('.tut_dropdown_item');
             
-            selectedLanguage.textContent = tut_languageNames[lang] || tut_languageNames.en;
+            if (selectedLanguage) {
+                selectedLanguage.textContent = tut_languageNames[lang] || tut_capitalize(lang);
+            }
             
             dropdownItems.forEach(item => {
                 item.classList.remove('tut_active');
@@ -1441,246 +2191,383 @@
             });
         }
 
-        // Get modal elements
-        const tut_modal = document.getElementById('tut_videoModal');
-        const tut_modalTitle = document.getElementById('tut_modalTitle');
-        const tut_youtubeIframe = document.getElementById('tut_youtubeIframe');
-        const tut_closeModal = document.getElementById('tut_closeModal');
+        // Event listeners setup function
+        function tut_setupEventListeners() {
+            // Get modal elements
+            const tut_modal = document.getElementById('tut_videoModal');
+            const tut_modalTitle = document.getElementById('tut_modalTitle');
+            const tut_youtubeIframe = document.getElementById('tut_youtubeIframe');
+            const tut_closeModal = document.getElementById('tut_closeModal');
 
-        // Get control elements
-        const tut_languageToggle = document.getElementById('tut_languageToggle');
-        const tut_languageMenu = document.getElementById('tut_languageMenu');
-        const tut_searchInput = document.getElementById('tut_searchInput');
+            // Get control elements
+            const tut_languageToggle = document.getElementById('tut_languageToggle');
+            const tut_languageMenu = document.getElementById('tut_languageMenu');
+            const tut_categoryToggle = document.getElementById('tut_categoryToggle');
+            const tut_categoryMenu = document.getElementById('tut_categoryMenu');
+            const tut_searchInput = document.getElementById('tut_searchInput');
 
-        // Dropdown functionality
-        tut_languageToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            tut_languageToggle.classList.toggle('tut_active');
-            tut_languageMenu.classList.toggle('tut_show');
-        });
+            // Check if required elements exist
+            if (!tut_languageToggle || !tut_languageMenu || !tut_searchInput) {
+                console.error('Required DOM elements not found');
+                return;
+            }
 
-        document.addEventListener('click', function() {
-            tut_languageToggle.classList.remove('tut_active');
-            tut_languageMenu.classList.remove('tut_show');
-        });
-
-        // Language selection
-        document.querySelectorAll('.tut_dropdown_item').forEach(item => {
-            item.addEventListener('click', function(e) {
+            // Language dropdown functionality
+            tut_languageToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
-                const selectedLang = this.getAttribute('data-lang');
+                tut_languageToggle.classList.toggle('tut_active');
+                tut_languageMenu.classList.toggle('tut_show');
                 
-                tut_updateDropdownDisplay(selectedLang);
-                
+                // Close category dropdown if open
+                if (tut_categoryToggle && tut_categoryMenu) {
+                    tut_categoryToggle.classList.remove('tut_active');
+                    tut_categoryMenu.classList.remove('tut_show');
+                }
+            });
+
+            // Category dropdown functionality
+            if (tut_categoryToggle && tut_categoryMenu) {
+                tut_categoryToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    tut_categoryToggle.classList.toggle('tut_active');
+                    tut_categoryMenu.classList.toggle('tut_show');
+                    
+                    // Close language dropdown if open
+                    tut_languageToggle.classList.remove('tut_active');
+                    tut_languageMenu.classList.remove('tut_show');
+                });
+            }
+
+            document.addEventListener('click', function() {
                 tut_languageToggle.classList.remove('tut_active');
                 tut_languageMenu.classList.remove('tut_show');
                 
-                // Check if there's a video ID in the URL
-                const videoId = tut_getVideoIdFromURL();
-                if (videoId) {
-                    // Find video in new language
-                    const result = tut_findVideoInLanguage(videoId, selectedLang);
-                    if (result) {
-                        const { video, language } = result;
-                        
-                        // Update current language
-                        tut_currentLanguage = language;
-                        
-                        // Update URL with new language
-                        const url = new URL(window.location);
-                        url.searchParams.set('lang', language);
-                        url.searchParams.set('id', videoId);
-                        window.history.pushState({}, '', url);
-                        
-                        // If modal is open, update video in modal
-                        if (tut_modal.style.display === 'block') {
-                            // Update title
-                            tut_modalTitle.textContent = video.title;
-                            
-                            // Update video content
-                            const embedUrl = tut_convertToEmbedUrl(video.url);
-                            
-                            if (video.url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) || video.url.includes('amazonaws.com')) {
-                                // Handle video file
-                                tut_youtubeIframe.style.display = 'none';
-                                const videoContainer = tut_youtubeIframe.parentElement;
-                                
-                                const existingVideo = videoContainer.querySelector('video');
-                                if (existingVideo) {
-                                    existingVideo.remove();
-                                }
-                                
-                                videoContainer.insertAdjacentHTML('beforeend', tut_createVideoElement(embedUrl));
-                            } else {
-                                // Handle YouTube video
-                                const existingVideo = tut_youtubeIframe.parentElement.querySelector('video');
-                                if (existingVideo) {
-                                    existingVideo.remove();
-                                }
-                                tut_youtubeIframe.style.display = 'block';
-                                tut_youtubeIframe.src = embedUrl;
-                            }
-                        }
-                    }
-                } else {
-                    // If no video ID, just update language normally
-                    tut_currentLanguage = selectedLang;
-                    tut_updateURL(selectedLang, tut_currentSearchTerm);
+                if (tut_categoryToggle && tut_categoryMenu) {
+                    tut_categoryToggle.classList.remove('tut_active');
+                    tut_categoryMenu.classList.remove('tut_show');
                 }
-                
-                // Re-render video list
-                tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm);
             });
-        });
 
-        // Search functionality
-        let tut_searchTimeout;
-        tut_searchInput.addEventListener('input', function() {
-            clearTimeout(tut_searchTimeout);
-            tut_searchTimeout = setTimeout(() => {
-                tut_currentSearchTerm = this.value;
-                tut_updateURL(tut_currentLanguage, tut_currentSearchTerm);
-                tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm);
-            }, 300); // Debounce search for 300ms
-        });
-
-        // Search on Enter key
-        tut_searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                clearTimeout(tut_searchTimeout);
-                tut_currentSearchTerm = this.value;
-                tut_updateURL(tut_currentLanguage, tut_currentSearchTerm);
-                tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm);
-            }
-        });
-
-        function tut_closeVideoModal() {
-            tut_modal.style.display = 'none';
-            tut_youtubeIframe.src = '';
-            
-            const videoElement = tut_modal.querySelector('video');
-            if (videoElement) {
-                videoElement.pause();
-                videoElement.remove();
-            }
-            
-            // Reset currentVideoId
-            tut_currentVideoId = null;
-            
-            const url = new URL(window.location);
-            url.searchParams.delete('id');
-            url.searchParams.delete('video_id');
-            window.history.pushState({}, '', url);
-            
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal events
-        tut_closeModal.addEventListener('click', tut_closeVideoModal);
-
-        tut_modal.addEventListener('click', function(e) {
-            if (e.target === tut_modal) {
-                tut_closeVideoModal();
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && tut_modal.style.display === 'block') {
-                tut_closeVideoModal();
-            }
-        });
-
-        // Modal dropdown functionality
-        document.addEventListener('click', function(e) {
-            const modalToggle = document.getElementById('tut_modalLanguageToggle');
-            const modalMenu = document.getElementById('tut_modalLanguageMenu');
-            
-            if (modalToggle && modalMenu) {
-                if (e.target.closest('#tut_modalLanguageToggle')) {
+            // Category selection
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('tut_category_dropdown_item')) {
                     e.stopPropagation();
-                    modalToggle.classList.toggle('tut_active');
-                    modalMenu.classList.toggle('tut_show');
-                } else {
-                    modalToggle.classList.remove('tut_active');
-                    modalMenu.classList.remove('tut_show');
+                    const selectedCategory = e.target.getAttribute('data-category');
+                    
+                    tut_currentCategory = selectedCategory;
+                    tut_updateCategoryDropdownDisplay(selectedCategory);
+                    
+                    // Close dropdown
+                    if (tut_categoryToggle && tut_categoryMenu) {
+                        tut_categoryToggle.classList.remove('tut_active');
+                        tut_categoryMenu.classList.remove('tut_show');
+                    }
+                    
+                    // Update URL and re-render
+                    tut_updateURL(tut_currentLanguage, tut_currentSearchTerm, tut_currentCategory);
+                    tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm, tut_currentCategory);
                 }
-            }
-        });
+            });
 
-        // Modal language selection
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('tut_modal_dropdown_item')) {
-                e.stopPropagation();
-                const selectedLang = e.target.getAttribute('data-lang');
-                
-                // Update modal dropdown display
-                tut_updateModalDropdownDisplay(selectedLang);
-                
-                // Close dropdown
-                const modalToggle = document.getElementById('tut_modalLanguageToggle');
-                const modalMenu = document.getElementById('tut_modalLanguageMenu');
-                if (modalToggle && modalMenu) {
-                    modalToggle.classList.remove('tut_active');
-                    modalMenu.classList.remove('tut_show');
-                }
-                
-                // Update main dropdown
-                tut_updateDropdownDisplay(selectedLang);
-                
-                // Handle language switching logic
-                const videoId = tut_getVideoIdFromURL() || tut_currentVideoId; // Use currentVideoId if URL doesn't have id
-                
-                if (videoId) {
-                    const result = tut_findVideoInLanguage(videoId, selectedLang);
-                    if (result) {
-                        const { video, language } = result;
-                        
-                        tut_currentLanguage = language;
-                        
-                        // Update URL if URL has video ID, otherwise just update language
-                        const urlVideoId = tut_getVideoIdFromURL();
-                        if (urlVideoId) {
+            // Language selection - updated to preserve current category when possible
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('tut_dropdown_item')) {
+                    e.stopPropagation();
+                    const selectedLang = e.target.getAttribute('data-lang');
+                    
+                    tut_updateDropdownDisplay(selectedLang);
+                    
+                    tut_languageToggle.classList.remove('tut_active');
+                    tut_languageMenu.classList.remove('tut_show');
+                    
+                    // Update current language
+                    tut_currentLanguage = selectedLang;
+                    
+                    // Regenerate category dropdown for new language
+                    tut_generateCategoryDropdownItems();
+                    
+                    // Try to keep the same category if it exists in new language
+                    const languageVideos = video_list.filter(video => video.language === selectedLang);
+                    const availableCategories = [...new Set(languageVideos.map(video => video.category))];
+                    
+                    // Check if current category exists in new language
+                    if (tut_currentCategory && tut_currentCategory !== 'all' && availableCategories.includes(tut_currentCategory)) {
+                        // Keep the same category
+                        console.log('Keeping current category:', tut_currentCategory);
+                    } else if (tut_currentCategory === 'all') {
+                        // Keep "all" selection
+                        tut_currentCategory = 'all';
+                    } else {
+                        // Current category doesn't exist in new language, switch to "All Categories"
+                        tut_currentCategory = 'all';
+                        console.log('Switching to All Categories');
+                    }
+                    
+                    tut_updateCategoryDropdownDisplay(tut_currentCategory);
+                    
+                    // Check if there's a video ID in the URL
+                    const videoId = tut_getVideoIdFromURL();
+                    if (videoId) {
+                        // Find video in new language
+                        const result = tut_findVideoInLanguage(videoId, selectedLang);
+                        if (result) {
+                            const { video, language } = result;
+                            
+                            // Update current language
+                            tut_currentLanguage = language;
+                            
+                            // Update URL with new language while preserving CID
                             const url = new URL(window.location);
+                            const cid = tut_getCidFromURL();
+                            url.searchParams.set('cid', cid);
                             url.searchParams.set('lang', language);
                             url.searchParams.set('id', videoId);
                             window.history.pushState({}, '', url);
-                        }
-                        
-                        // Update video in modal
-                        tut_modalTitle.textContent = video.title;
-                        
-                        const embedUrl = tut_convertToEmbedUrl(video.url);
-                        
-                        if (video.url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) || video.url.includes('amazonaws.com')) {
-                            tut_youtubeIframe.style.display = 'none';
-                            const videoContainer = tut_youtubeIframe.parentElement;
                             
-                            const existingVideo = videoContainer.querySelector('video');
-                            if (existingVideo) {
-                                existingVideo.remove();
+                            // If modal is open, update video in modal
+                            if (tut_modal && tut_modal.style.display === 'block') {
+                                // Update title
+                                if (tut_modalTitle) {
+                                    tut_modalTitle.textContent = video.title;
+                                }
+                                
+                                // Update video content
+                                const embedUrl = tut_convertToEmbedUrl(video.url);
+                                
+                                if (video.url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) || video.url.includes('amazonaws.com')) {
+                                    // Handle video file
+                                    if (tut_youtubeIframe) {
+                                        tut_youtubeIframe.style.display = 'none';
+                                        const videoContainer = tut_youtubeIframe.parentElement;
+                                        
+                                        const existingVideo = videoContainer.querySelector('video');
+                                        if (existingVideo) {
+                                            existingVideo.remove();
+                                        }
+                                        
+                                        videoContainer.insertAdjacentHTML('beforeend', tut_createVideoElement(embedUrl));
+                                    }
+                                } else {
+                                    // Handle YouTube video
+                                    if (tut_youtubeIframe) {
+                                        const existingVideo = tut_youtubeIframe.parentElement.querySelector('video');
+                                        if (existingVideo) {
+                                            existingVideo.remove();
+                                        }
+                                        tut_youtubeIframe.style.display = 'block';
+                                        tut_youtubeIframe.src = embedUrl;
+                                    }
+                                }
                             }
-                            
-                            videoContainer.insertAdjacentHTML('beforeend', tut_createVideoElement(embedUrl));
-                        } else {
-                            const existingVideo = tut_youtubeIframe.parentElement.querySelector('video');
-                            if (existingVideo) {
-                                existingVideo.remove();
-                            }
-                            tut_youtubeIframe.style.display = 'block';
-                            tut_youtubeIframe.src = embedUrl;
                         }
+                    } else {
+                        // If no video ID, just update language normally
+                        tut_updateURL(tut_currentLanguage, tut_currentSearchTerm, tut_currentCategory);
                     }
-                } else {
-                    tut_currentLanguage = selectedLang;
-                    tut_updateURL(selectedLang, tut_currentSearchTerm);
+                    
+                    // Re-render video list
+                    tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm, tut_currentCategory);
+                }
+            });
+
+            // Search functionality - when searching, ignore category filter
+            let tut_searchTimeout;
+            tut_searchInput.addEventListener('input', function() {
+                clearTimeout(tut_searchTimeout);
+                tut_searchTimeout = setTimeout(() => {
+                    tut_currentSearchTerm = this.value;
+                    tut_updateURL(tut_currentLanguage, tut_currentSearchTerm, tut_currentCategory);
+                    tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm, tut_currentCategory);
+                }, 300);
+            });
+
+            // Search on Enter key
+            tut_searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    clearTimeout(tut_searchTimeout);
+                    tut_currentSearchTerm = this.value;
+                    tut_updateURL(tut_currentLanguage, tut_currentSearchTerm, tut_currentCategory);
+                    tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm, tut_currentCategory);
+                }
+            });
+
+            function tut_closeVideoModal() {
+                const tut_modal = document.getElementById('tut_videoModal');
+                const tut_youtubeIframe = document.getElementById('tut_youtubeIframe');
+                
+                if (tut_modal) {
+                    tut_modal.style.display = 'none';
+                }
+                if (tut_youtubeIframe) {
+                    tut_youtubeIframe.src = '';
                 }
                 
-                tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm);
+                // Destroy Plyr instance
+                if (window.currentPlyrInstance) {
+                    try {
+                        window.currentPlyrInstance.destroy();
+                        window.currentPlyrInstance = null;
+                        console.log('Plyr instance destroyed');
+                    } catch (error) {
+                        console.error('Error destroying Plyr:', error);
+                    }
+                }
+                
+                // Remove video elements
+                const videoElement = document.querySelector('#tut_videoModal video');
+                const plyrContainer = document.querySelector('#tut_videoModal .tut-plyr-video, #tut_videoModal [id*="plyr-video"]');
+                
+                if (videoElement) {
+                    videoElement.pause();
+                    videoElement.remove();
+                }
+                if (plyrContainer) {
+                    plyrContainer.remove();
+                }
+                
+                // Reset currentVideoId
+                tut_currentVideoId = null;
+                
+                // Update URL while preserving CID
+                const url = new URL(window.location);
+                const cid = tut_getCidFromURL();
+                url.searchParams.set('cid', cid);
+                url.searchParams.delete('id');
+                url.searchParams.delete('video_id');
+                window.history.pushState({}, '', url);
+                
+                document.body.style.overflow = 'auto';
             }
-        });
+
+            // Close modal events
+            if (tut_closeModal) {
+                tut_closeModal.addEventListener('click', tut_closeVideoModal);
+            }
+
+            if (tut_modal) {
+                tut_modal.addEventListener('click', function(e) {
+                    if (e.target === tut_modal) {
+                        tut_closeVideoModal();
+                    }
+                });
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && tut_modal && tut_modal.style.display === 'block') {
+                    tut_closeVideoModal();
+                }
+            });
+
+            // Modal dropdown functionality
+            document.addEventListener('click', function(e) {
+                const modalToggle = document.getElementById('tut_modalLanguageToggle');
+                const modalMenu = document.getElementById('tut_modalLanguageMenu');
+                
+                if (modalToggle && modalMenu) {
+                    if (e.target.closest('#tut_modalLanguageToggle')) {
+                        e.stopPropagation();
+                        modalToggle.classList.toggle('tut_active');
+                        modalMenu.classList.toggle('tut_show');
+                    } else {
+                        modalToggle.classList.remove('tut_active');
+                        modalMenu.classList.remove('tut_show');
+                    }
+                }
+            });
+
+            // Modal language selection - updated to preserve CID
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('tut_modal_dropdown_item')) {
+                    e.stopPropagation();
+                    const selectedLang = e.target.getAttribute('data-lang');
+                    
+                    // Update modal dropdown display
+                    tut_updateModalDropdownDisplay(selectedLang);
+                    
+                    // Close dropdown
+                    const modalToggle = document.getElementById('tut_modalLanguageToggle');
+                    const modalMenu = document.getElementById('tut_modalLanguageMenu');
+                    if (modalToggle && modalMenu) {
+                        modalToggle.classList.remove('tut_active');
+                        modalMenu.classList.remove('tut_show');
+                    }
+                    
+                    // Update main dropdown
+                    tut_updateDropdownDisplay(selectedLang);
+                    
+                    // Handle language switching logic
+                    const videoId = tut_getVideoIdFromURL() || tut_currentVideoId;
+                    
+                    if (videoId) {
+                        const result = tut_findVideoInLanguage(videoId, selectedLang);
+                        if (result) {
+                            const { video, language } = result;
+                            
+                            tut_currentLanguage = language;
+                            
+                            // Update URL if URL has video ID, otherwise just update language - always preserve CID
+                            const urlVideoId = tut_getVideoIdFromURL();
+                            if (urlVideoId) {
+                                const url = new URL(window.location);
+                                const cid = tut_getCidFromURL();
+                                url.searchParams.set('cid', cid);
+                                url.searchParams.set('lang', language);
+                                url.searchParams.set('id', videoId);
+                                window.history.pushState({}, '', url);
+                            }
+                            
+                            // Update video in modal
+                            if (tut_modalTitle) {
+                                tut_modalTitle.textContent = video.title;
+                            }
+                            
+                            const embedUrl = tut_convertToEmbedUrl(video.url);
+                            
+                            if (video.url.match(/\.(mp4|webm|ogg|mov)(\?.*)?$/i) || video.url.includes('amazonaws.com')) {
+                                if (tut_youtubeIframe) {
+                                    tut_youtubeIframe.style.display = 'none';
+                                    const videoContainer = tut_youtubeIframe.parentElement;
+                                    
+                                    const existingVideo = videoContainer.querySelector('video');
+                                    if (existingVideo) {
+                                        existingVideo.remove();
+                                    }
+                                    
+                                    videoContainer.insertAdjacentHTML('beforeend', tut_createVideoElement(embedUrl));
+                                }
+                            } else {
+                                if (tut_youtubeIframe) {
+                                    const existingVideo = tut_youtubeIframe.parentElement.querySelector('video');
+                                    if (existingVideo) {
+                                        existingVideo.remove();
+                                    }
+                                    tut_youtubeIframe.style.display = 'block';
+                                    tut_youtubeIframe.src = embedUrl;
+                                }
+                            }
+                        }
+                    } else {
+                        tut_currentLanguage = selectedLang;
+                        tut_updateURL(selectedLang, tut_currentSearchTerm, tut_currentCategory);
+                    }
+                    
+                    tut_renderVideoList(tut_currentLanguage, tut_currentSearchTerm, tut_currentCategory);
+                }
+            });
+        }
 
         // Initialize page when DOM is loaded
-        document.addEventListener('DOMContentLoaded', tut_initializePage);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup event listeners first
+            tut_setupEventListeners();
+            
+            // Then initialize the page with API data
+            tut_initializePage();
+            
+        });
+
+
+        
 
         // Arrow functionality for pointing to chat widget
         let arrow = document.querySelector('.arrow');
@@ -1749,9 +2636,11 @@
             }
         }
     </script>
-
-    <!-- Live chat widget integration -->
-    <script src="https://contentmaster.ai/statics/lcwuwg.js" r=60 b="2284f0" c="fff" t="Live chat with us" site="huubinhnguyen" m=1></script>
+<script>
+// Get CID and inject chat script
+const cid = new URLSearchParams(window.location.search).get('cid') || 'huubinhnguyen';
+document.write(`<script src="https://contentmaster.ai/statics/lcwuwg.js" r="60" b="2284f0" c="fff" t="Live chat with us" site="${cid}" m="1"><\/script>`);
+</script>
 
 </body>
 </html>
